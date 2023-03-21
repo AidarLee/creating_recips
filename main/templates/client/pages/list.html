@@ -1,0 +1,59 @@
+{% extends "client/base.html" %}
+{% load static %}
+
+{% block page_title %}Список продуктов{% endblock page_title%}
+
+{% block content %}
+<body>
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Полный список пищевых продуктов</p>
+						<h1>Кыргызской республики</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<div class="container text-center mt-5 mb-5 m-5" >
+	<div class="col-lg-12">
+		<div class="order-details-wrap">
+			<table class="order-details">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Название</th>
+						<th>Вид</th>
+						<th>Категория</th>
+						<th>Регион</th>
+						<th>Производитель</th>
+						<th>Дата исследования</th>
+					</tr>
+				</thead>
+				{% for value in list_of_products %}
+				<tbody class="order-details-body">
+					<tr>
+						<td>{{value.id}}</td>
+						<td>{{value.attribute_name}}</td>
+						<td>{{value.category.Name_of_category}}</td>
+						<td>{{value.types.Name_of_type}}</td>
+						<td>{{value.category.Region}}</td>
+						<td>{{value.manifacturers.name}}</td>
+						<td>{{value.date_analis}}</td>
+					</tr>
+					
+				</tbody>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+
+</body>
+{% endblock content %}

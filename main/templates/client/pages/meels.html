@@ -1,0 +1,312 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block page_title %}Проектирование рецептуры мясных продуктов{% endblock page_title%}
+
+{% block content %}
+<body>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Проектирование рецептуры мясных продуктов</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150">
+		<div class="container">
+			<form method="get" action="{% url 'meels' %}">
+				<!-- 2 column grid layout with text inputs for the first and last names -->
+				<div class="row mb-4 pt-3" id="meal-form">
+				  <div class="col-lg-3 col-sm-12">
+					<div class="form-outline">
+						<select name="region" id="region" class="form-control" required>
+						  <option value="0">Выберите регион</option>
+						  {% for value in regions %}
+						  <option value="{{value.id}}">{{value.Region}}</option>
+						  {% endfor %}
+						</select>
+					  <label class="form-label" for="region">Регион</label>
+					</div>
+				  </div>
+				  <div class="col-lg-3 col-sm-12">
+					<div class="form-outline">
+						<select name="meal" id="meal" class="form-control">
+						  <option value="0">Выберите вид мяса</option>
+						  {% for value in products %}
+						  <option value="{{value.id}}">{{value.attribute_name}}</option>
+						  {% endfor %}
+						</select>
+					  <label class="form-label" for="meal">Вид мяса</label>
+					</div>
+				  </div>
+				  <div class="col-lg-3">
+					<div class="form-outline">
+					  <input type="number" id="massfraction" name="massfraction" class="form-control" />
+					  <label class="form-label" for="massfraction">Массовая доля в рецепте, %</label>
+					</div>
+				  </div>
+				  <div class="col-lg-3">
+					<div class="form-outline">
+					  <input type="number" id="price" name="price" class="form-control" />
+					  <label class="form-label" for="price">Цена за 1кг</label>
+					</div>
+				  </div>
+				</div>
+			  
+				<!-- Submit button -->
+				<button type="submit" class="btn btn-primary btn-block mb-4">Рассчитать</button>
+				<button type="button" class="btn btn-success btn-block mb-4" id="btn-add">Добавить Ингредиент +</button>
+			  </form>
+		</div>
+
+		{% if hide_ingredients == None %}
+
+		{% else %}
+
+		<div class="container">
+			<!-- 2 column grid layout with text inputs for the first and last names -->
+		<div class="row mb-4 pt-3" id="meal-form">
+			<div class="col-lg-3 col-sm-12">
+			  <div class="form-outline">
+				  <select name="region" id="region" class="form-control" required>
+					<option value="0">Выберите регион</option>
+					{% for value in region %}
+					<option value="{{value.id}}">{{value.Region}}</option>
+					{% endfor %}
+				  </select>
+				<label class="form-label" for="region">Регион</label>
+			  </div>
+			</div>
+			<div class="col-lg-3 col-sm-12">
+				<div class="form-outline">
+					<select name="region" id="region" class="form-control" required>
+					  <option value="0">Выберите вид мяса</option>
+					  {% for value in products %}
+					  <option value="{{value.id}}">{{value.types.Name_of_type}}</option>
+					  {% endfor %}
+					</select>
+				  <label class="form-label" for="region">Вид продукта</label>
+				</div>
+			  </div>
+			<div class="col-lg-3 col-sm-12">
+			  <div class="form-outline">
+				  <select name="meal" id="meal" class="form-control">
+					<option value="0">Выберите наименование</option>
+					{% for prod in products %}
+					<option value="{{prod.types.id}}">{{prod.attribute_name}}</option>
+					{% endfor %}
+				  </select>
+				<label class="form-label" for="meal">Наименование продукта</label>
+			  </div>
+			</div>
+			<div class="col-lg-3">
+			  <div class="form-outline">
+				<input type="number" id="massfraction" name="massfraction" class="form-control" />
+				<label class="form-label" for="massfraction">Массовая доля в рецепте, %</label>
+			  </div>
+			</div>
+			<div class="col-lg-3">
+			  <div class="form-outline">
+				<input type="number" id="price" name="price" class="form-control" />
+				<label class="form-label" for="price">Цена за 100 г</label>
+			  </div>
+			</div>
+		  </div>
+
+		{% endif %}
+
+		<div class="container">
+			<div class="card-title bg-custom border p-1 mt-5">
+				<h4>Отчет</h4>
+			</div>
+		</div>
+
+		<div class="container">
+			{% if hide_result %}
+			<div class="wrapper">
+			  <div class="row">
+				<div class="col-lg-8">
+				  <div class="card-title bg-custom border p-1">
+					<h3>Здесь будут результаты</h3>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			{% else %}
+			<div class="wrapper">
+			  <div class="row">
+				<div class="col-lg-8">
+				  <div class="card-title bg-custom border p-1">
+					<h3>Содержание основных компонентов</h3>
+				  </div>
+				  <div class="table-responsive">
+					<table class="table">
+					  <tr>
+						<th>Содержание белка %</th>
+						<th>Содержание жира %</th>
+						<th>Содержание углеводов %</th>
+					  </tr>
+					  <tr>
+						<td>{{ protein }}</td>
+						<td>2,10</td>
+						<td>0</td>
+					  </tr>
+					</table>
+				  </div>
+				</div>
+				<div class="col-lg-4">
+				  <div class="card-title bg-custom border p-1">
+					<h3>Себестоимость</h3>
+				  </div>
+				  <div class="table-responsive">
+					<table class="table">
+					  <tr>
+						<th>Себестоимость за 100 г.</th>
+						<th>Себестоимость за 1кг.</th>
+					  </tr>
+					  <tr>
+						<td>100 c</td>
+						<td>208 c</td>
+					  </tr>
+				  </table>
+				  </div>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-lg-12">
+				  <div class="card-title bg-custom border p-1 text-center">
+					<h3>Содержание НАК и их скор</h3>
+				  </div>
+				  <div class="table-responsive">
+					<table class="table">
+					  <tr>
+						<th></th>
+						<th>Изолейц</th>
+						<th>Лейц</th>
+						<th>Валин</th>
+						<th>Мет+Цист</th>
+						<th>Фен+Тир</th>
+						<th>Триптофан</th>
+						<th>Треон</th>
+						<th>Лизин</th>
+					  </tr>
+					  <tr>
+						<td>М, %</td>
+					  </tr>
+		  
+					  <tr>
+						<td>C, %</td>
+					  </tr>
+					  <tr>
+						<td>a, %</td>
+					  </tr>
+					  <tr>
+						<td>Cmin</td>
+					  </tr>
+				  </table>
+				  </div>
+				  
+				</div>
+			  </div>
+				 
+		  
+			  <div class="row">
+				<div class="col-lg-6">
+				  <div class="card-title bg-custom border p-1">
+					<h3>Энергетическая ценность</h3>
+				  </div>
+				  <div class="table-responsive">
+					<table class="table">
+					  <tbody>
+						<tr>
+						  <th rowspan="3">ЭЦ, ккал, кДж</th>
+						</tr>
+						<tr>
+						  <td>152,7</td>
+						  <td>642</td>
+						</tr>
+						<tr>
+						  <th>ккал</th>
+						  <th>кДж</th>
+						</tr>
+					  </tbody>
+					</table>
+				  </div>
+				</div>
+				<div class="col-lg-6">
+				  <div class="card-title bg-custom border p-1 text-center">
+					<h3>Качественные показатeли белкового компонента</h3>
+				  </div>
+				  <div class="table-responsive">
+					<table class="table">
+					  <thead>
+						<tr>
+						  <th>КРАС</th>
+						  <th>БЦ</th>
+						  <th>U</th>
+						  <th>G</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td>154,8</td>
+						  <td>646</td>
+						  <td>154,8</td>
+						  <td>646</td>
+						</tr>
+					  </tbody>
+					</table>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			{% endif %}
+		  </div>
+	  
+		  <!-- logo carousel -->
+		  <div class="logo-carousel-section">
+			  <div class="container">
+				  <div class="row">
+					  <div class="col-lg-12">
+						  <div class="logo-carousel-inner">
+							  <div class="single-logo-item">
+								  <img src="assets/img/company-logos/1.png" alt="">
+							  </div>
+							  <div class="single-logo-item">
+								  <img src="assets/img/company-logos/2.png" alt="">
+							  </div>
+							  <div class="single-logo-item">
+								  <img src="assets/img/company-logos/3.png" alt="">
+							  </div>
+							  <div class="single-logo-item">
+								  <img src="assets/img/company-logos/4.png" alt="">
+							  </div>
+							  <div class="single-logo-item">
+								  <img src="assets/img/company-logos/5.png" alt="">
+							  </div>
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+		  <!-- end logo carousel -->
+	</div>
+	<!-- end cart -->
+
+</body>
+{% endblock content %}
+
+{% block custom_js %}
+      <script src="{% static 'client/js/main.js' %}"></script>
+{% endblock custom_js %}

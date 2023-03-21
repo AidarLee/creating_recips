@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block admin_title %}Админ-Панель{% endblock admin_title %}</title>
+
+    {% include 'admin/blocks/links.html' %}
+
+    {% block plugin_css %}{% endblock plugin_css %}
+  </head>
+  <body id="page-top">
+    
+    <div class="container-scroller">
+      
+      <!-- Page Wrapper -->
+<div id="wrapper">
+  {% include 'admin/blocks/side-bar.html' %}
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+      {% include 'admin/blocks/header.html' %}
+    </div>
+  
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+       {% block content %}{% endblock content %}
+
+       {% include 'admin/blocks/footer.html' %}
+  </div>
+    <!-- main-panel ends -->
+    
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+</div>
+    <!-- container-scroller -->
+    {% comment %} {% include 'admin/blocks/scripts.html' %} {% endcomment %}
+
+    {% block custom_js %}{% endblock custom_js %}
+    <!-- <script type="text/javascript">
+      {% if is_active %} $("li#{{is_active}}").addClass("active") {% endif %}
+    </script> -->
+  </body>
+</html>

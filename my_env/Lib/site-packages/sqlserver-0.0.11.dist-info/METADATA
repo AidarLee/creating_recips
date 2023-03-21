@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: sqlserver
+Version: 0.0.11
+Summary: A class used to simplify pyodbc
+Home-page: https://www.adgstudios.co.za
+Author: Ashlin Darius Govindasamy
+Author-email: adgrules@hotmail.com
+License: MIT
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Dist: pyodbc
+
+UNKNOWN
+
+
