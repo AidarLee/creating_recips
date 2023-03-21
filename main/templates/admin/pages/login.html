@@ -2,6 +2,7 @@
 {% load static %}
 {% block plugin_css %}{% endblock plugin_css %}
 
+{% block content %}
 <body class="bg-gradient-primary">
 
     <div class="container">
@@ -21,15 +22,15 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" action="{% url 'authorizate' %}" method="POST">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="text" name="username" class="form-control form-control-user"
+                                                id="username"
+                                                placeholder="Enter Email Address..." required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" name="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Password" required>
                                                 {% if messages %} {% for message in messages %}
                                                 {% if message.tags == "error" %}
                                                 <p class="text-danger">{{ message }}</p>
@@ -44,16 +45,9 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
+                                        <button name="continue" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit">Войти</button>
                                         </a>
                                         <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -75,3 +69,5 @@
     </div>
 
 </body>
+
+{% endblock %}
