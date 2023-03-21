@@ -8,7 +8,12 @@
 
     {% include 'admin/blocks/links.html' %}
 
-    {% block plugin_css %}{% endblock plugin_css %}
+
+
+    {% block custom_css %}   
+  
+    {% endblock custom_css %}
+
   </head>
   <body id="page-top">
     
@@ -28,7 +33,10 @@
   
   <!-- Begin Page Content -->
   <div class="container-fluid">
-       {% block content %}{% endblock content %}
+      
+      <!-- ======= Block Content ======= -->
+      {% block content %} {% endblock content %}
+      <!-- End Block Content -->
 
        {% include 'admin/blocks/footer.html' %}
   </div>
@@ -39,8 +47,7 @@
 </div>
 </div>
     <!-- container-scroller -->
-    {% comment %} {% include 'admin/blocks/scripts.html' %} {% endcomment %}
-
+    {% include 'admin/blocks/scripts.html' %}
     {% block custom_js %}{% endblock custom_js %}
     <!-- <script type="text/javascript">
       {% if is_active %} $("li#{{is_active}}").addClass("active") {% endif %}
