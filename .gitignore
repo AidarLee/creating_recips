@@ -1,0 +1,8 @@
+.DS_Store
+db.sqlite3
+app_blog/__pycache__/__init__.cpython-311.pyc
+app_blog/__pycache__/settings.cpython-311.pyc
+app_blog/__pycache__/urls.cpython-311.pyc
+app_blog/__pycache__/wsgi.cpython-311.pyc
+main/admin.py
+main/models.py

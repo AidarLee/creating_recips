@@ -23,24 +23,14 @@
                             <li><a href="#">Проектирование</a>
                                 <ul class="sub-menu">
                                     <li><a href="{% url 'meels' %}">Мясных продуктов</a></li>
-                                    <li><a href="404.html">Молочных продуктов</a></li>
-                                    <li><a href="404.html">Молоных продуктов</a></li>
-                                    <li><a href="404.html">Хлебобулочных изделй</a></li>
+                                    <li><a href="{% url 'milks' %}">Молочных продуктов</a></li>
+                                    <li><a href="{% url 'bakery' %}">Хлебобулочных изделий</a></li>
                                 </ul>
                             </li>
-                            <li><a href="">Продукты питания</a>
-                                <ul class="sub-menu">
-                                    <li><a href="{% url 'list-of-products' %}">Полный список</a></li>
-                                    <li><a href="{% url 'list-of-products' %}">Минерально химический состав</a></li>
-                                    <li><a href="{% url 'list-of-products' %}">Аминокислотный состав</a></li>
-                                    <li><a href="{% url 'list-of-products' %}">Жирнокислотный состав</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{% url 'contact-us' %}">Свяжитесь с нами</a></li>
-                            <li><a href="{% url 'manufacturers' %}">Производители</a></li>
+                            <li><a href="{% url 'list-of-products' %}">Продукты питания</a></li>
+                            <li><a href="{% url 'contact' %}">Свяжитесь с нами</a></li>
                             <li>
                                 <div class="header-icons">
-                                    <a class="shopping-cart" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
                                 </div>
                             </li>

@@ -19,3 +19,13 @@
 <script src="{% static 'client/js/sticker.js'%}"></script>
 <!-- main js -->
 <script src="{% static 'client/js/main.js'%}"></script>
+<!-- datables-->
+<script src="{% static 'client/DataTables/datatables.min.js' %}"></script>
+<script>$(document).ready(function () { $('#example').DataTable(); });</script>
+<script>
+    var table = new DataTable('#example', {
+    language: {
+        "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/ru.json",
+    },
+});
+</script>

@@ -7,12 +7,9 @@ from django.conf.urls import handler400, handler403, handler404, handler500
 from main import views
 from django.contrib.auth import views as auth_views
 
-urlpatterns = [
-    path(_('admin/'), views.AdminMain.as_view()),
-    
-]
 
 urlpatterns = (
+    path('admin/', admin.site.urls),
     path('', include('main.urls')),
 )
 

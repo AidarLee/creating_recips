@@ -17,9 +17,10 @@ urlpatterns = [
 
     #Client urls
     path('about', views.about, name='about-us'),
-    path('contact', views.contact, name='contact-us'),
-    path('chart', views.cart, name='chart'),
+    path('contact', views.contact, name='contact'),
+    path('cart', views.cart, name='cart'),
     path('meels', views.meels, name='meels'),
-    path('list', views.list, name='list-of-products'),
-    path('manufacturers', views.manufacturers, name='manufacturers'),
+    path('milks', views.milks, name='milks'),
+    path('bakery', views.bakery, name='bakery'),
+    path('list', views.list, name='list-of-products')
 ]

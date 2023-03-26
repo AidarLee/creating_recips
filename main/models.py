@@ -29,36 +29,23 @@ class Categories(models.Model):
         default = RegionChoice.REGION_1,
         verbose_name = "Регион"
     )
+    
+    def __str__(self) -> str:
+        return f"{self.Name_of_category} + {self.Region}"
 
 # Тип продуктов (Мясные, Молочные, Хлебобулочные и т.д.)
 class Types(models.Model):
     Name_of_type = models.CharField(verbose_name='Наименование типа', max_length=75)
     Category = models.ForeignKey(Categories, on_delete=models.RESTRICT, null=True)
 
+    def __str__(self) -> str:
+        return f"{self.Name_of_type} + {self.Category}" 
+
 # Названия жирно-кислотного состава
 class FatAcidsTypeChoice(models.TextChoices):
     TYPE_1 = "Насыщенные жирные кислоты, %", "Насыщенные жирные кислоты, %"
     TYPE_2 = "Мононенасыщенные жирные кислоты, %", "Мононенасыщенные жирные кислоты, %"
     TYPE_3 = "Полиненасыщенные жирные кислоты, %", "Полиненасыщенные жирные кислоты, %"
-
-
-# Производители продуктов
-class Manufacturers(models.Model):
-    name = models.CharField(verbose_name='Наименование производителя', max_length=75)
-    URL=models.ImageField(verbose_name="Путь картинки", 
-                         upload_to = get_file_path,
-                         validators = [validate_image_file_extension], null=True)
-    Caption=models.CharField(max_length=200,verbose_name="Название картинки", null=True)
-
-    path_url = "static/img/manifacturers/"
-
-    def save(self, *args, **kwargs):
-        super(Manufacturers, self).save(*args, **kwargs)
-        image = Image.open(self.URL.path)
-        if image.width > 800 or image.height > 400:
-            output_size = (600, 400)
-            image.thumbnail(output_size)
-            image.save(self.URL.path)
 
 # Ингредиенты
 class Ingredients(models.Model):
@@ -72,15 +59,13 @@ class Ingredients(models.Model):
 # Продукты
 class Products(models.Model):
     attribute_name = models.CharField(verbose_name='Наименование продукта', max_length=75, null=True)
-    category = models.ForeignKey(Categories, on_delete=models.RESTRICT, null=True)
     types = models.ForeignKey(Types, on_delete=models.RESTRICT, null=True)
-    manifacturers = models.ForeignKey(Manufacturers, on_delete=models.RESTRICT, null=True)
     date_analis = models.DateField(verbose_name='Дата исследования', null=True)
 
     class Meta:
         verbose_name = ' -- Наименование продукта -- '
     def __str__(self) -> str:
-        return self.name
+        return f"{self.attribute_name} + {self.types}"
     
 # Жирнокислотный состав
 class FatAcids(models.Model):
