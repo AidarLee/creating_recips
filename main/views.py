@@ -295,9 +295,11 @@ def product_details(request, id):
         
     product_id = Products.objects.get(id=id)
     products= Products.objects.get(id=id)
+    fatacids = FatAcids.objects.filter(product=id)
     context= {
         'product_id': product_id,
-        'products': products
+        'products': products,
+        'fatacids': fatacids
     }
         
     return render(request, 'client/pages/details.html',context)
