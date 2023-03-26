@@ -1,0 +1,130 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+{% url 'minerals_ingredients_create' as url_path %}
+{% url 'minerals_ingredients_all' as minerals_ingredients_all %}
+
+<div class="content-wrapper">
+    <div class="page-header">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'admin_panel' %}">Главная</a></li>
+          <li class="breadcrumb-item"><a href="{{minerals_ingredients_all}}">Минеральный состав</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{% if request.path == url_path %}Добавление{% else %}Обновление {% endif %}</li>
+        </ol>
+      </nav>
+    </div>
+    {% if messages %} 
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible" role="alert">{{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            {% elif message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card shadow-lg">
+        <div class="card-body">
+            <h4 class="card-title">{% if request.path == url_path %}Добавление Минерального состава ингредиента{% else %}Обновить{% endif %}</h4>
+            <form class="forms-sample" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group col-6">
+                <label for="{{ form.ingredient.id_for_label }}" class="font-weight-bold">Выберите ингредиент:</label>
+                {{ form.ingredient }}
+                {{ form.ingredient.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.Ca.id_for_label }}" class="font-weight-bold">Ca: </label>
+                {{ form.Ca }}
+                {{ form.Ca.errors }}
+                <label for="{{ form.Na.id_for_label }}" class="font-weight-bold">Na: </label>
+                {{ form.Na }}
+                {{ form.Na.errors }}
+                <label for="{{ form.K.id_for_label }}" class="font-weight-bold">K: </label>
+                {{ form.K }}
+                {{ form.K.errors }}
+                <label for="{{ form.P.id_for_label }}" class="font-weight-bold">P: </label>
+                {{ form.P }}
+                {{ form.P.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.Mn.id_for_label }}" class="font-weight-bold">Mn: </label>
+                {{ form.Mn }}
+                {{ form.Mn.errors }}
+                <label for="{{ form.Zn.id_for_label }}" class="font-weight-bold">Zn: </label>
+                {{ form.Zn }}
+                {{ form.Zn.errors }}
+                <label for="{{ form.Se.id_for_label }}" class="font-weight-bold">Se: </label>
+                {{ form.Se }}
+                {{ form.Se.errors }}
+                <label for="{{ form.Cu.id_for_label }}" class="font-weight-bold">Cu: </label>
+                {{ form.Cu }}
+                {{ form.Cu.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.Fe.id_for_label }}" class="font-weight-bold">Fe: </label>
+                {{ form.Fe }}
+                {{ form.Fe.errors }}
+                <label for="{{ form.I.id_for_label }}" class="font-weight-bold">I: </label>
+                {{ form.I }}
+                {{ form.I.errors }}
+                <label for="{{ form.B.id_for_label }}" class="font-weight-bold">B: </label>
+                {{ form.B }}
+                {{ form.B.errors }}
+                <label for="{{ form.Li.id_for_label }}" class="font-weight-bold">Li: </label>
+                {{ form.Li }}
+                {{ form.Li.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.Al.id_for_label }}" class="font-weight-bold">Al: </label>
+                {{ form.Al }}
+                {{ form.Al.errors }}
+                <label for="{{ form.Mg.id_for_label }}" class="font-weight-bold">Mg: </label>
+                {{ form.Mg }}
+                {{ form.Mg.errors }}
+                <label for="{{ form.V.id_for_label }}" class="font-weight-bold">V: </label>
+                {{ form.V }}
+                {{ form.V.errors }}
+                <label for="{{ form.Ni.id_for_label }}" class="font-weight-bold">Ni: </label>
+                {{ form.Ni }}
+                {{ form.Ni.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.Co.id_for_label }}" class="font-weight-bold">Co: </label>
+                {{ form.Co }}
+                {{ form.Co.errors }}
+                <label for="{{ form.Cr.id_for_label }}" class="font-weight-bold">Cr: </label>
+                {{ form.Cr }}
+                {{ form.Cr.errors }}
+                <label for="{{ form.Sn.id_for_label }}" class="font-weight-bold">Sn: </label>
+                {{ form.Sn }}
+                {{ form.Sn.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+            <a href="{{minerals_ingredients_all}}"  class="btn btn-light">Отменить</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js%}
+
+{% endblock custom_js %}

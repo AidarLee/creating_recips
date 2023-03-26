@@ -50,3 +50,230 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+
+
+class IngredientsForm(ModelForm):
+    class Meta:
+        model = Ingredients
+        fields = ['name', 'category']
+    
+    name = forms.CharField(max_length=80, required=True, widget=TextInput(
+            attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите наименование ингредиента", "size" : 80},
+            ))
+    category = forms.ModelChoiceField(queryset=IngredientsCategory.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
+            ))
+    
+class TypesForm(ModelForm):
+    class Meta:
+        model = Types
+        fields = ['Name_of_type', 'Category']
+    
+    Name_of_type = forms.CharField(max_length=80, required=True, widget=TextInput(
+            attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите наименование продукта", "size" : 80},
+            ))
+    Category = forms.ModelChoiceField(queryset=Categories.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
+            ))
+    
+class IngredientsCategoriesForm(ModelForm):
+    class Meta:
+        model = IngredientsCategory
+        fields = ['name']
+    
+    name = forms.CharField(max_length=80, required=True, widget=TextInput(
+            attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите категорию ингредиента", "size" : 80},
+            ))
+
+
+class FatAcidsIngredientsForm(ModelForm):
+    class Meta:
+        model = FatAcidsIngredients
+        fields = ['ingredient', 'type_of_acid', 'value']
+    
+    ingredient = forms.ModelChoiceField(queryset=Ingredients.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "ingredient"},
+            ))
+    
+    type_of_acid = forms.CharField(max_length=50,
+                                widget= forms.Select(
+                                        attrs={"class" : "form-control", "id" : "type_of_acid"},
+                                        choices=FatAcidsTypeChoice.choices
+                                    )
+                            )
+    
+    value = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    
+class MineralsIngredientsForm(ModelForm):
+    class Meta:
+        model = MineralsIngredients
+        fields = ['ingredient', 'Ca', 'Na', 'K', 'P', 'Mn',
+                    'Zn', 'Se', 'Cu', 'Fe', 'I', 'B', 'Li',
+                    'Al', 'Mg', 'V', 'Ni', 'Co', 'Cr', 'Sn']
+    
+    ingredient = forms.ModelChoiceField(queryset=Ingredients.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "ingredient"},
+            ))
+    
+    Ca = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Na = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    K = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    P = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Mn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Zn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Se = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Cu = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Fe = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    I = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    B = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Li = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Al = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Mg = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    V = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Ni = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Co = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Cr = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Sn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    
+
+class AminoAcidsIngredientsForm(ModelForm):
+    class Meta:
+        model = AminoAcidCompOfIng
+        fields = ['ingredient', 'asparing', 'glutamin', 'serin', 'gistidin', 'glitsin', 'treonin', 'arginin', 'alanin',
+                  'tirosin', 'tsistein', 'valin', 'metionin', 'triptofan', 'fenilalalin', 'izoleitsin', 'leitsin', 'lisin', 'prolin']
+    
+    ingredient = forms.ModelChoiceField(queryset=Ingredients.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "ingredient"},
+            ))
+    
+    asparing = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    glutamin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    serin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    gistidin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    glitsin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    treonin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    arginin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    alanin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    tirosin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    tsistein = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    valin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    metionin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    triptofan = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    fenilalalin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    izoleitsin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    leitsin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    lisin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    prolin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+
+class ChemicalsIngredientsForm(ModelForm):
+    class Meta:
+        model = ChemicalsIngredients
+        fields = ['ingredient', 'soluable_solids', 'ascorbic_acids', 'ash_content', 'moisture', 'protein', 'fat']
+    
+    ingredient = forms.ModelChoiceField(queryset=Ingredients.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "ingredient"},
+            ))
+    
+    soluable_solids = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    ascorbic_acids = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    ash_content = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    moisture = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    protein = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    fat = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+
+
+
+class FatAcidsForm(ModelForm):
+    class Meta:
+        model = FatAcids
+        fields = ['product', 'type_of_acid', 'value']
+    
+    product = forms.ModelChoiceField(queryset=Products.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "product"},
+            ))
+    
+    type_of_acid = forms.CharField(max_length=50,
+                                widget= forms.Select(
+                                        attrs={"class" : "form-control", "id" : "type_of_acid"},
+                                        choices=FatAcidsTypeChoice.choices
+                                    )
+                            )
+    
+    value = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    
+class MineralForm(ModelForm):
+    class Meta:
+        model = MineralComposition
+        fields = ['product', 'Ca', 'Na', 'K', 'P', 'Mn',
+                    'Zn', 'Se', 'Cu', 'Fe', 'I', 'B', 'Li',
+                    'Al', 'Mg', 'V', 'Ni', 'Co', 'Cr', 'Sn']
+    
+    product = forms.ModelChoiceField(queryset=Products.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "product"},
+            ))
+    
+    Ca = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Na = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    K = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    P = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Mn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Zn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Se = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Cu = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Fe = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    I = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    B = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Li = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Al = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Mg = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    V = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Ni = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Co = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Cr = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    Sn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    
+
+class AminoAcidsForm(ModelForm):
+    class Meta:
+        model = AminoAcidComposition
+        fields = ['product', 'asparing', 'glutamin', 'serin', 'gistidin', 'glitsin', 'treonin', 'arginin', 'alanin',
+                  'tirosin', 'tsistein', 'valin', 'metionin', 'triptofan', 'fenilalalin', 'izoleitsin', 'leitsin', 'lisin', 'prolin']
+    
+    product = forms.ModelChoiceField(queryset=Products.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "product"},
+            ))
+    
+    asparing = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    glutamin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    serin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    gistidin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    glitsin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    treonin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    arginin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    alanin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    tirosin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    tsistein = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    valin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    metionin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    triptofan = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    fenilalalin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    izoleitsin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    leitsin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    lisin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    prolin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    
+class ChemicalsForm(ModelForm):
+    class Meta:
+        model = Chemicals
+        fields = ['product', 'soluable_solids', 'ascorbic_acids', 'ash_content', 'moisture', 'protein', 'fat']
+    
+    product = forms.ModelChoiceField(queryset=Products.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "product"},
+            ))
+    
+    soluable_solids = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    ascorbic_acids = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    ash_content = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    moisture = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    protein = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
+    fat = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))

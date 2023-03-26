@@ -1,0 +1,94 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+{% url 'chemicals_ingredients_create' as url_path %}
+{% url 'chemicals_ingredients_all' as chemicals_ingredients_all %}
+
+<div class="content-wrapper">
+    <div class="page-header">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'admin_panel' %}">Главная</a></li>
+          <li class="breadcrumb-item"><a href="{{chemicals_ingredients_all}}">Химический состав</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{% if request.path == url_path %}Добавление{% else %}Обновление {% endif %}</li>
+        </ol>
+      </nav>
+    </div>
+    {% if messages %} 
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible" role="alert">{{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            {% elif message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card shadow-lg">
+        <div class="card-body">
+            <h4 class="card-title">{% if request.path == url_path %}Добавление Химического состава{% else %}Обновить{% endif %}</h4>
+            <form class="forms-sample" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group col-6">
+                <label for="{{ form.ingredient.id_for_label }}" class="font-weight-bold">Выберите Ингредиента: </label>
+                {{ form.ingredient }}
+                {{ form.ingredient.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.soluable_solids.id_for_label }}" class="font-weight-bold">Массовая доля растворимых сухих веществ, %: </label>
+                {{ form.soluable_solids }}
+                {{ form.soluable_solids.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.ascorbic_acids.id_for_label }}" class="font-weight-bold">Массовая доля аскорбиновой кислоты, г/дм3': </label>
+                {{ form.ascorbic_acids }}
+                {{ form.ascorbic_acids.errors }}
+            </div>
+            <hr>
+            <div class="'form-group col-14">
+                <label for="{{ form.ash_content.id_for_label }}" class="font-weight-bold">Зольность, %: </label>
+                {{ form.ash_content }}
+                {{ form.ash_content.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.moisture.id_for_label }}" class="font-weight-bold">Массовая доля влаги, %: </label>
+                {{ form.moisture }}
+                {{ form.moisture.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.protein.id_for_label }}" class="font-weight-bold">Массовая доля белка, %: </label>
+                {{ form.protein }}
+                {{ form.protein.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.fat.id_for_label }}" class="font-weight-bold">Массовая доля жира, %: </label>
+                {{ form.fat }}
+                {{ form.fat.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+            <a href="{{chemicals_ingredients_all}}"  class="btn btn-light">Отменить</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js%}
+
+{% endblock custom_js %}

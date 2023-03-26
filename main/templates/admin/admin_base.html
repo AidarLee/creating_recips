@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block admin_title %}Админ-Панель{% endblock admin_title %}</title>
+    <title>{% block admin_title %}Панель администратора{% endblock admin_title %}</title>
 
     {% include 'admin/blocks/links.html' %}
 
@@ -29,7 +29,6 @@
     <!-- Main Content -->
     <div id="content">
       {% include 'admin/blocks/header.html' %}
-    </div>
   
   <!-- Begin Page Content -->
   <div class="container-fluid">
@@ -37,9 +36,9 @@
       <!-- ======= Block Content ======= -->
       {% block content %} {% endblock content %}
       <!-- End Block Content -->
-
-       {% include 'admin/blocks/footer.html' %}
+    </div>
   </div>
+       {% include 'admin/blocks/footer.html' %}
     <!-- main-panel ends -->
     
   </div>
@@ -50,8 +49,5 @@
     {% include 'admin/blocks/scripts.html' %}
     
     {% block custom_js %}{% endblock custom_js %}
-    <!-- <script type="text/javascript">
-      {% if is_active %} $("li#{{is_active}}").addClass("active") {% endif %}
-    </script> -->
   </body>
 </html>
