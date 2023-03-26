@@ -1,0 +1,128 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+{% url 'aminoacids_create' as url_path %}
+{% url 'aminoacids_all' as aminoacids_all %}
+
+<div class="content-wrapper">
+    <div class="page-header">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'admin_panel' %}">Главная</a></li>
+          <li class="breadcrumb-item"><a href="{{aminoacids_all}}">Аминокислотный состав</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{% if request.path == url_path %}Добавление{% else %}Обновление {% endif %}</li>
+        </ol>
+      </nav>
+    </div>
+    {% if messages %} 
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible" role="alert">{{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            {% elif message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card shadow-lg">
+        <div class="card-body">
+            <h4 class="card-title">{% if request.path == url_path %}Добавление Аминокислотного состава{% else %}Обновить{% endif %}</h4>
+            <form class="forms-sample" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group col-6">
+                <label for="{{ form.product.id_for_label }}" class="font-weight-bold">Выберите продукт: </label>
+                {{ form.product }}
+                {{ form.product.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.asparing.id_for_label }}" class="font-weight-bold">Ca: </label>
+                {{ form.asparing }}
+                {{ form.asparing.errors }}
+                <label for="{{ form.glutamin.id_for_label }}" class="font-weight-bold">Na: </label>
+                {{ form.glutamin }}
+                {{ form.glutamin.errors }}
+                <label for="{{ form.serin.id_for_label }}" class="font-weight-bold">K: </label>
+                {{ form.serin }}
+                {{ form.serin.errors }}
+                <label for="{{ form.gistidin.id_for_label }}" class="font-weight-bold">P: </label>
+                {{ form.gistidin }}
+                {{ form.gistidin.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.glitsin.id_for_label }}" class="font-weight-bold">Mn: </label>
+                {{ form.glitsin }}
+                {{ form.glitsin.errors }}
+                <label for="{{ form.treonin.id_for_label }}" class="font-weight-bold">Zn: </label>
+                {{ form.treonin }}
+                {{ form.treonin.errors }}
+                <label for="{{ form.arginin.id_for_label }}" class="font-weight-bold">Se: </label>
+                {{ form.arginin }}
+                {{ form.arginin.errors }}
+                <label for="{{ form.alanin.id_for_label }}" class="font-weight-bold">Cu: </label>
+                {{ form.alanin }}
+                {{ form.alanin.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.tirosin.id_for_label }}" class="font-weight-bold">Fe: </label>
+                {{ form.tirosin }}
+                {{ form.tirosin.errors }}
+                <label for="{{ form.tsistein.id_for_label }}" class="font-weight-bold">I: </label>
+                {{ form.tsistein }}
+                {{ form.tsistein.errors }}
+                <label for="{{ form.valin.id_for_label }}" class="font-weight-bold">B: </label>
+                {{ form.valin }}
+                {{ form.valin.errors }}
+                <label for="{{ form.metionin.id_for_label }}" class="font-weight-bold">Li: </label>
+                {{ form.metionin }}
+                {{ form.metionin.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.triptofan.id_for_label }}" class="font-weight-bold">Al: </label>
+                {{ form.triptofan }}
+                {{ form.triptofan.errors }}
+                <label for="{{ form.fenilalalin.id_for_label }}" class="font-weight-bold">Mg: </label>
+                {{ form.fenilalalin }}
+                {{ form.fenilalalin.errors }}
+                <label for="{{ form.izoleitsin.id_for_label }}" class="font-weight-bold">V: </label>
+                {{ form.izoleitsin }}
+                {{ form.izoleitsin.errors }}
+                <label for="{{ form.leitsin.id_for_label }}" class="font-weight-bold">Ni: </label>
+                {{ form.leitsin }}
+                {{ form.leitsin.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.lisin.id_for_label }}" class="font-weight-bold">Co: </label>
+                {{ form.lisin }}
+                {{ form.lisin.errors }}
+                <label for="{{ form.prolin.id_for_label }}" class="font-weight-bold">Cr: </label>
+                {{ form.prolin }}
+                {{ form.prolin.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+            <a href="{{aminoacids_all}}"  class="btn btn-light">Отменить</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js%}
+
+
+{% endblock custom_js %}

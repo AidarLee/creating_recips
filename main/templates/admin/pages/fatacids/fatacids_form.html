@@ -1,0 +1,89 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+{% url 'fatacids_create' as url_path %}
+{% url 'fatacids_all' as fatacids_all %}
+
+<div class="content-wrapper">
+    <div class="page-header">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'admin_panel' %}">Главная</a></li>
+          <li class="breadcrumb-item"><a href="{{fatacids_all}}">Жирнокислотный состав</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{% if request.path == url_path %}Добавление{% else %}Обновление {% endif %}</li>
+        </ol>
+      </nav>
+    </div>
+    {% if messages %} 
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible" role="alert">{{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            {% elif message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card shadow-lg">
+        <div class="card-body">
+            <h4 class="card-title">{% if request.path == url_path %}Добавление Жирнокислотного состава{% else %}Обновить{% endif %}</h4>
+            <form class="forms-sample" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group col-6">
+                <label for="{{ form.product.id_for_label }}" class="font-weight-bold">Выберите продукт: </label>
+                {{ form.product }}
+                {{ form.product.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-6">
+                <label for="{{ form.type_of_acid.id_for_label }}" class="font-weight-bold">Тип жирно-ксилоты: </label>
+                {{ form.type_of_acid }}
+                {{ form.type_of_acid.errors }}
+            </div>
+            <hr>
+            <div class="form-group col-14">
+                <label for="{{ form.value.id_for_label }}" class="font-weight-bold">Значение: </label>
+                {{ form.value }}
+                {{ form.value.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+            <a href="{{fatacids_all}}"  class="btn btn-light">Отменить</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js%}
+
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'admin/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="admin/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="admin/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="admin/js/demo/chart-area-demo.js"></script>
+<script src="admin/js/demo/chart-pie-demo.js"></script>
+
+
+{% endblock custom_js %}

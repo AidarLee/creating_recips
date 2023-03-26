@@ -32,19 +32,17 @@
 						<th>Вид</th>
 						<th>Категория</th>
 						<th>Регион</th>
-						<th>Производитель</th>
 						<th>Дата исследования</th>
 					</tr>
 				</thead>
 				{% for value in list_of_products %}
 				<tbody class="order-details-body">
 					<tr>
-						<td>{{value.id}}</td>
+						<td><a href="#" class="text-decoration-none text-body">{{value.id}}</a></td>
 						<td>{{value.attribute_name}}</td>
-						<td>{{value.category.Name_of_category}}</td>
+						<td>{{value.types.Category.Name_of_category}}</td>
 						<td>{{value.types.Name_of_type}}</td>
-						<td>{{value.category.Region}}</td>
-						<td>{{value.manifacturers.name}}</td>
+						<td>{{value.types.Category.Region}}</td>
 						<td>{{value.date_analis}}</td>
 					</tr>
 					
