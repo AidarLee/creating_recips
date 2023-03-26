@@ -290,3 +290,14 @@ def list(request):
     }
 
     return render(request, 'client/pages/list.html', context)
+
+def product_details(request, id):
+        
+    product_id = Products.objects.get(id=id)
+    products= Products.objects.get(id=id)
+    context= {
+        'product_id': product_id,
+        'products': products
+    }
+        
+    return render(request, 'client/pages/details.html',context)

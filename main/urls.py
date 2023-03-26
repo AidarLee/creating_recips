@@ -22,5 +22,6 @@ urlpatterns = [
     path('meels', views.meels, name='meels'),
     path('milks', views.milks, name='milks'),
     path('bakery', views.bakery, name='bakery'),
-    path('list', views.list, name='list-of-products')
+    path('list', views.list, name='list-of-products'),
+    path('details/<int:id>', views.product_details, name='details')
 ]

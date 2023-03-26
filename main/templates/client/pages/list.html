@@ -54,7 +54,7 @@
 				<tbody>
 					{% for value in list_of_products %}
 					<tr>
-						<td><a href="#" class="linktext">{{value.attribute_name}}</a></td>
+						<td><a href="{% url 'details' value.id %}" class="linktext">{{value.attribute_name}}</a></td>
 						<td>{{value.types.Name_of_type}}</td>
 						<td>{{value.types.Category.Region}}</td>
 						<td>{{value.date_analis}}</td>
