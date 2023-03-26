@@ -198,7 +198,7 @@ def cart(request):
 
     return render(request, 'client/pages/cart.html')
 
-
+#Meels Recips
 def meels(request):
     products = Products.objects.all()
     
@@ -223,7 +223,7 @@ def meels(request):
     not_exist = False
     
     try:
-        chemical_comp = Chemicals.objects.get(product=meal)
+        chemical_comp = ChemicalsComposition.objects.get(product=meal)
         protein = (float(mass_fraction) * chemical_comp.protein) / float(mass_fraction)
         print(mass_fraction)
         
@@ -252,11 +252,100 @@ def meels(request):
 
     return render(request, 'client/pages/meels.html', context)
 
-def list(request):
-    list_of_products = Products.objects.order_by('id')
+# Milks Recips
+def milks(request):
+    products = Products.objects.order_by('id')
+    protein = 0
+    check = None
+    regions = Categories.objects.all()
+    hide_ingredients = None
+
+    region = request.GET.get('region')
+    milk = request.GET.get('milk')
+    mass_fraction = request.GET.get('massfraction')
+    price = request.GET.get('price')
+
+    not_exist = False
+    
+    try:
+        chemical_comp = Chemicals.objects.get(product=milk)
+        protein = (float(mass_fraction) * chemical_comp.protein) / float(mass_fraction)
+        print(mass_fraction)
+        
+    except Chemicals.DoesNotExist:
+        check = True
+
+    try:
+        chemical_comp = Chemicals.objects.all()
+        # protein = (float(mass_fraction) * float(Chemicals.model.protein)) / float(mass_fraction)
+        
+    except Chemicals.DoesNotExist:
+        check = True
+    # if chemical_comp is None:
+    #     check = True
+    # else:
 
     context= {
-        'list_of_products':list_of_products,
+        'products': products,
+        "protein" : protein,
+        "hide_result" : check,
+        "not_exist" : not_exist,
+        "regions" : region,
+        "hide_ingredients" : hide_ingredients,
+    }
+
+    return render(request, 'client/pages/milks.html', context)
+
+# Bakery Recips
+def bakery(request):
+    products = Products.objects.order_by('id')
+    protein = 0
+    check = None
+    regions = Categories.objects.all()
+    hide_ingredients = None
+
+    region = request.GET.get('region')
+    baker = request.GET.get('bakery')
+    mass_fraction = request.GET.get('massfraction')
+    price = request.GET.get('price')
+
+    not_exist = False
+    
+    try:
+        chemical_comp = Chemicals.objects.get(product=baker)
+        protein = (float(mass_fraction) * chemical_comp.protein) / float(mass_fraction)
+        print(mass_fraction)
+        
+    except Chemicals.DoesNotExist:
+        check = True
+
+    try:
+        chemical_comp = Chemicals.objects.all()
+        # protein = (float(mass_fraction) * float(Chemicals.model.protein)) / float(mass_fraction)
+        
+    except Chemicals.DoesNotExist:
+        check = True
+    # if chemical_comp is None:
+    #     check = True
+    # else:
+
+    context= {
+        'products': products,
+        "protein" : protein,
+        "hide_result" : check,
+        "not_exist" : not_exist,
+        "regions" : region,
+        "hide_ingredients" : hide_ingredients,
+    }
+
+    return render(request, 'client/pages/bakery.html', context)
+
+
+def list(request):
+    list_of_products = Products.objects.order_by('id')
+    
+    context= {
+        'list_of_products':list_of_products
     }
 
     return render(request, 'client/pages/list.html', context)
@@ -817,3 +906,13 @@ def chemicals_delete(request, id):
             return redirect("chemicals_delete")
  
     return render(request, "admin/pages/chemicals/chemicals_delete_confirm.html", context)
+def product_details(request, id):
+        
+    product_id = Products.objects.get(id=id)
+    products= Products.objects.get(id=id)
+    context= {
+        'product_id': product_id,
+        'products': products
+    }
+        
+    return render(request, 'client/pages/details.html',context)

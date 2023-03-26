@@ -3,6 +3,24 @@
 
 {% block page_title %}Список продуктов{% endblock page_title%}
 
+{% block custom_css %}<style>
+	table.dataTable.table-striped tbody tr.odd a.linktext {
+		color:white;
+	}
+
+	table.dataTable.table-striped tbody tr.even a.linktext {
+		color:black;
+	}
+
+	table.dataTable.table-striped tbody tr.odd a.linktext:hover {
+		font-weight: bold;
+	}
+
+	table.dataTable.table-striped tbody tr.even a.linktext:hover {
+		font-weight: bold;
+	}
+</style>{% endblock custom_css %}
+
 {% block content %}
 <body>
 	
@@ -21,37 +39,40 @@
 	</div>
 	<!-- end breadcrumb section -->
 
-	<div class="container text-center mt-5 mb-5 m-5" >
+	<div class="container text-center mt-5 mb-5 d-flex justify-content-center" >
 	<div class="col-lg-12">
 		<div class="order-details-wrap">
-			<table class="order-details">
+			<table id="example" class="table table-striped table-bordered">
 				<thead>
 					<tr>
-						<th>ID</th>
 						<th>Название</th>
 						<th>Вид</th>
-						<th>Категория</th>
 						<th>Регион</th>
 						<th>Дата исследования</th>
 					</tr>
 				</thead>
-				{% for value in list_of_products %}
-				<tbody class="order-details-body">
+				<tbody>
+					{% for value in list_of_products %}
 					<tr>
+<<<<<<< HEAD
 						<td><a href="#" class="text-decoration-none text-body">{{value.id}}</a></td>
 						<td>{{value.attribute_name}}</td>
 						<td>{{value.types.Category.Name_of_category}}</td>
+=======
+						<td><a href="{% url 'details' value.id %}" class="linktext">{{value.attribute_name}}</a></td>
+>>>>>>> 9f058b42cbbd5bd4e895bf7adc461770d6f9419c
 						<td>{{value.types.Name_of_type}}</td>
 						<td>{{value.types.Category.Region}}</td>
 						<td>{{value.date_analis}}</td>
 					</tr>
-					
+					{% endfor %}
 				</tbody>
-				{% endfor %}
+				
 			</table>
 		</div>
 	</div>
 </div>
+
 
 </body>
 {% endblock content %}

@@ -2,3 +2,11 @@ main/__pycache__/forms.cpython-310.pyc
 main/views.py
 main/__pycache__/urls.cpython-310.pyc
 main/__pycache__/views.cpython-310.pyc
+.DS_Store
+db.sqlite3
+app_blog/__pycache__/__init__.cpython-311.pyc
+app_blog/__pycache__/settings.cpython-311.pyc
+app_blog/__pycache__/urls.cpython-311.pyc
+app_blog/__pycache__/wsgi.cpython-311.pyc
+main/admin.py
+main/models.py

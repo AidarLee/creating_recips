@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.core.validators import validate_image_file_extension
 import uuid, os
 
-# Create your models here.
 
 # Функция для кодировки название файла
 def get_file_path(instance, filename):
