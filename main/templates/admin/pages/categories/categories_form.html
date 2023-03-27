@@ -1,0 +1,65 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+{% url 'categories_create' as url_path %}
+{% url 'categories_all' as categories_all %}
+
+<div class="content-wrapper">
+    <div class="page-header">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'admin_panel' %}">Главная</a></li>
+          <li class="breadcrumb-item"><a href="{{categories_all}}">Ингредиенты</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{% if request.path == url_path %}Добавление{% else %}Обновление {% endif %}</li>
+        </ol>
+      </nav>
+    </div>
+    {% if messages %} 
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible" role="alert">{{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            {% elif message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card shadow-lg">
+        <div class="card-body">
+            <h4 class="card-title">{% if request.path == url_path %}Добавление новой категории{% else %}Обновить{% endif %}</h4>
+            <form class="forms-sample" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group col-6">
+                <label for="{{ form.Name_of_category.id_for_label }}" class="font-weight-bold">Наименование:</label>
+                {{ form.Name_of_category }}
+                {{ form.Name_of_category.errors }}
+            </div>
+
+            <div class="form-group col-6">
+                <label for="{{ form.Region.id_for_label }}" class="font-weight-bold">Выберите Регион:</label>
+                {{ form.Region }}
+                {{ form.Region.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+            <a href="{{categories_all}}"  class="btn btn-light">Отменить</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js%}
+
+
+{% endblock custom_js %}

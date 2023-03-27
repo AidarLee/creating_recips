@@ -10,3 +10,6 @@ app_blog/__pycache__/urls.cpython-311.pyc
 app_blog/__pycache__/wsgi.cpython-311.pyc
 main/admin.py
 main/models.py
+db.sqlite3
+app_blog/__pycache__/settings.cpython-310.pyc
+app_blog/settings.py

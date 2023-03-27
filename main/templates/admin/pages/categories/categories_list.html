@@ -32,8 +32,8 @@
                   
                   <div class="card-header py-3">
                     <div class="d-sm-flex align-items-center">
-                      <h4 class="card-title mb-sm-0">Список категорий ингредиентов</h4>
-                      <a href="{% url 'ingredients_category_create' %}" class="btn btn-primary btn-rounded my-1 my-sm-0 ml-auto">
+                      <h4 class="card-title mb-sm-0">Список категорий продуктов</h4>
+                      <a href="{% url 'categories_create' %}" class="btn btn-primary btn-rounded my-1 my-sm-0 ml-auto">
                         Добавить
                       </a>
                     </div>
@@ -43,7 +43,7 @@
 
                     <div class="table-responsive">
                       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        {% if ingredientscategory_list %}
+                        {% if categories_list %}
 
                         <div class="row">
                           <div class="col-sm-12 col-md-10">
@@ -68,18 +68,18 @@
                           <tr>
                             <th class="font-weight-bold">№</th>
                             <th class="font-weight-bold">Наименование продукта</th>
-                            <th class="font-weight-bold">Категория</th>
+                            <th class="font-weight-bold">Регион</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {% for ingredients in ingredientscategory_list %}
+                          {% for values in categories_list %}
                           <tr>
                             <td>{{forloop.counter}}</td>
-                            <td><label class="badge font-weight-bold">{{ingredients.name}}</label></td>
-                            <td><label class="badge badge-warning">{{ingredients.category.Name_of_category}}</label></td>
+                            <td><label class="badge font-weight-bold">{{values.Name_of_category}}</label></td>
+                            <td><label class="badge badge-warning">{{values.Region}}</label></td>
                             <td class="edit-delete-icons">
-                              <a href="{% url 'ingredients_category_update' ingredients.id %}"><i class="fa fa-pen-square"></i></a> |
-                              <a href="{% url 'ingredients_category_delete' ingredients.id %}" class="text-danger"><i class="fa fa-trash"></i></i></a>
+                              <a href="{% url 'categories_update' values.id %}"><i class="fa fa-pen-square"></i></a> |
+                              <a href="{% url 'categories_delete' values.id %}" class="text-danger"><i class="fa fa-trash"></i></i></a>
                             </td>
                           </tr>
                           {% endfor %}

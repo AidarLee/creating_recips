@@ -108,7 +108,32 @@
         <div class="sidebar-heading">
             Продукты
         </div>
-        
+
+
+    <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTherteen"
+                aria-expanded="true" aria-controls="collapseTherteen">
+                <span>Категории продуктов</span>
+            </a>
+            <div id="collapseTherteen" class="collapse" aria-labelledby="headingTherteen" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{% url 'categories_all' %}">Список записей</a>
+                    <a class="collapse-item" href="{% url 'categories_create' %}">Добавить запись</a>
+                </div>
+            </div>
+    </li>
+    <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwelve"
+                aria-expanded="true" aria-controls="collapseTwelve">
+                <span>Продукты</span>
+            </a>
+            <div id="collapseTwelve" class="collapse" aria-labelledby="headingTwelve" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{% url 'products_all' %}">Список записей</a>
+                    <a class="collapse-item" href="{% url 'products_create' %}">Добавить запись</a>
+                </div>
+            </div>
+        </li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
             aria-expanded="true" aria-controls="collapseTwo">

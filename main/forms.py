@@ -64,18 +64,6 @@ class IngredientsForm(ModelForm):
                                      widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
             ))
     
-class TypesForm(ModelForm):
-    class Meta:
-        model = Types
-        fields = ['Name_of_type', 'Category']
-    
-    Name_of_type = forms.CharField(max_length=80, required=True, widget=TextInput(
-            attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите наименование продукта", "size" : 80},
-            ))
-    Category = forms.ModelChoiceField(queryset=Categories.objects.all(), 
-                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
-            ))
-    
 class IngredientsCategoriesForm(ModelForm):
     class Meta:
         model = IngredientsCategory
@@ -181,6 +169,53 @@ class ChemicalsIngredientsForm(ModelForm):
     protein = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     fat = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
 
+
+
+class ProductsForm(ModelForm):
+    class Meta:
+        model = Products
+        fields = ['attribute_name', 'types', 'date_analis']
+    
+    attribute_name = forms.CharField(max_length=80, required=True, widget=TextInput(
+            attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите наименование ингредиента", "size" : 80},
+            ))
+    types = forms.ModelChoiceField(queryset=Types.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
+            ))
+    date_analis = forms.DateField(required=False, 
+                               widget=DateInput(
+                                   attrs={"type" : "date", "class" : "form-control", "id" : "date_analis"}
+                                   )
+                               )
+    
+
+class TypesForm(ModelForm):
+    class Meta:
+        model = Types
+        fields = ['Name_of_type', 'Category']
+    
+    Name_of_type = forms.CharField(max_length=80, required=True, widget=TextInput(
+            attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите наименование продукта", "size" : 80},
+            ))
+    Category = forms.ModelChoiceField(queryset=Categories.objects.all(), 
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
+            ))
+    
+class CategoriesForm(ModelForm):
+    class Meta:
+        model = Categories
+        fields = ['Name_of_category', 'Region']
+    
+    Name_of_category = forms.CharField(max_length=80, required=True, widget=TextInput(
+            attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите категорию ингредиента", "size" : 80},
+            ))
+    Region = forms.ChoiceField(
+                                choices=RegionChoice.choices,
+                                widget= forms.Select(
+                                        attrs={"class" : "form-control", "id" : "Region"}
+                                    ),
+                                required=True
+                            )
 
 
 class FatAcidsForm(ModelForm):

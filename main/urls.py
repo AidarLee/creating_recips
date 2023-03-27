@@ -59,6 +59,21 @@ urlpatterns = [
     path('admin-panel/chemicals/delete/<int:id>/', views.chemicals_ingredients_delete, name='chemicals_ingredients_delete'),
 
 
+
+
+
+    # Products View
+    path('admin-panel/products/all/', views.ProductsListView.as_view(), name='products_all'),
+    path('admin-panel/products/create/', views.ProductsCreateView.as_view(), name='products_create'),
+    path('admin-panel/products/update/<int:pk>/', views.ProductsUpdateView.as_view(), name='products_update'),
+    path('admin-panel/products/delete/<int:id>/', views.products_delete, name='products_delete'),
+
+    # Ingredients categories View
+    path('admin-panel/category/all/', views.CategoriesListView.as_view(), name='categories_all'),
+    path('admin-panel/category/create/', views.CategoriesCreateView.as_view(), name='categories_create'),
+    path('admin-panel/category/update/<int:pk>/', views.CategoriesUpdateView.as_view(), name='categories_update'),
+    path('admin-panel/category/delete/<int:id>/', views.categories_delete, name='categories_delete'),
+
     # FatAcids View
     path('admin-panel/fatacids/all/', views.FatAcidsListView.as_view(), name='fatacids_all'),
     path('admin-panel/fatacids/create/', views.FatAcidsCreateView.as_view(), name='fatacids_create'),

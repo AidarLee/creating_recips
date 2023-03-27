@@ -18,6 +18,22 @@ html {
   height: 100%;
 }
 
+table.dataTable.table-striped tbody tr.odd a.linktext {
+		color:white;
+	}
+
+table.dataTable.table-striped tbody tr.even a.linktext {
+		color:black;
+	}
+
+table.dataTable.table-striped tbody tr.odd a.linktext:hover {
+		font-weight: bold;
+	}
+
+table.dataTable.table-striped tbody tr.even a.linktext:hover {
+		font-weight: bold;
+	}
+
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;

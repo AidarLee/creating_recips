@@ -223,7 +223,7 @@ def meels(request):
     not_exist = False
     
     try:
-        chemical_comp = ChemicalsComposition.objects.get(product=meal)
+        chemical_comp = Chemicals.objects.get(product=meal)
         protein = (float(mass_fraction) * chemical_comp.protein) / float(mass_fraction)
         print(mass_fraction)
         
@@ -349,6 +349,112 @@ def list(request):
     }
 
     return render(request, 'client/pages/list.html', context)
+
+
+
+
+
+
+
+
+# Products CRUD operations
+
+class ProductsView(View):
+    model = Products
+    form_class = ProductsForm
+    active_panel = "products-panel"
+    login_url = "login_page"
+    success_url = reverse_lazy("products_create")
+    extra_context = {
+        "is_active" : active_panel,
+        "active_products" : "active",
+        "expand_products" : "show",
+        }
+    
+class ProductsListView(LoginRequiredMixin, ProductsView, ListView):
+    template_name = "admin/pages/products/products_list.html"
+    paginate_by = 10
+
+class ProductsCreateView(LoginRequiredMixin, SuccessMessageMixin, ProductsView, CreateView):
+    template_name = 'admin/pages/products/products_form.html'
+    success_message = "Запись успешно Добавлена!"  
+
+class ProductsUpdateView(LoginRequiredMixin, SuccessMessageMixin, ProductsView, UpdateView):
+    template_name = "admin/pages/products/products_form.html"
+    success_url = reverse_lazy("products_all")
+    success_message = "Запись успешно Обновлена!"
+
+def products_delete(request, id):
+    context = {
+            "is_active" : "products-panel",
+            "active_products" : "active",
+            "expand_products" : "show",
+    }
+    obj = get_object_or_404(Products, id = id)
+    if request.method =="POST":
+        
+        try:
+            # delete object
+            obj.delete()
+            # after deleting redirect to
+            # home page
+            messages.success(request, "Запись успешно удалено!")
+            return redirect("products_all")
+        except Exception as e:
+            messages.error(request, "Не удалось удалить запись, повторите попытку!")
+            return redirect("products_delete")
+ 
+    return render(request, "admin/pages/products/products_delete_confirm.html", context)  
+
+
+# Products CRUD operations
+
+class CategoriesView(View):
+    model = Categories
+    form_class = CategoriesForm
+    active_panel = "categories-panel"
+    login_url = "login_page"
+    success_url = reverse_lazy("categories_create")
+    extra_context = {
+        "is_active" : active_panel,
+        "active_categories" : "active",
+        "expand_categories" : "show",
+        }
+    
+class CategoriesListView(LoginRequiredMixin, CategoriesView, ListView):
+    template_name = "admin/pages/categories/categories_list.html"
+    paginate_by = 10
+
+class CategoriesCreateView(LoginRequiredMixin, SuccessMessageMixin, CategoriesView, CreateView):
+    template_name = 'admin/pages/categories/categories_form.html'
+    success_message = "Запись успешно Добавлена!"  
+
+class CategoriesUpdateView(LoginRequiredMixin, SuccessMessageMixin, CategoriesView, UpdateView):
+    template_name = "admin/pages/categories/categories_form.html"
+    success_url = reverse_lazy("categories_all")
+    success_message = "Запись успешно Обновлена!"
+
+def categories_delete(request, id):
+    context = {
+            "is_active" : "categories-panel",
+            "active_categories" : "active",
+            "expand_categories" : "show",
+    }
+    obj = get_object_or_404(Categories, id = id)
+    if request.method =="POST":
+        
+        try:
+            # delete object
+            obj.delete()
+            # after deleting redirect to
+            # home page
+            messages.success(request, "Запись успешно удалено!")
+            return redirect("categories_all")
+        except Exception as e:
+            messages.error(request, "Не удалось удалить запись, повторите попытку!")
+            return redirect("categories_delete")
+ 
+    return render(request, "admin/pages/categories/categories_delete_confirm.html", context)  
 
 
 
