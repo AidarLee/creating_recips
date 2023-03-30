@@ -22,11 +22,11 @@
     <hr class="sidebar-divider">
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTherteen"
-            aria-expanded="true" aria-controls="collapseTherteen">
+        <a class="nav-link {% if expand_categories %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#categories"
+            aria-expanded="{% if expand_categories %}true {% else %}false{% endif %}" aria-controls="categories">
             <span>Категории</span>
         </a>
-        <div id="collapseTherteen" class="collapse" aria-labelledby="headingTherteen" data-parent="#accordionSidebar">
+        <div id="categories" class="collapse {% if expand_categories %}show{% endif %}" aria-labelledby="categories" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'categories_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'categories_create' %}">Добавить запись</a>
@@ -43,11 +43,11 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link {% if expand_ingredients %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="{% if expand_ingredients %}true {% else %}false{% endif %}" aria-controls="collapseTwo">
             <span>Ингредиенты</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {% if expand_ingredients %}show{% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'ingredients_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'ingredients_create' %}">Добавить запись</a>
@@ -55,11 +55,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNine"
+        <a class="nav-link {% if expand_fatacids_ingredients %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseNine"
             aria-expanded="true" aria-controls="collapseNine">
             <span>Жирнокисотный состав</span>
         </a>
-        <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordionSidebar">
+        <div id="collapseNine" class="collapse {% if expand_fatacids_ingredients %}show{% endif %}" aria-labelledby="headingNine" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'fatacids_ingredients_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'fatacids_ingredients_create' %}">Добавить запись</a>
@@ -67,11 +67,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEight"
+        <a class="nav-link {% if expand_minerals_ingredients %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseEight"
             aria-expanded="true" aria-controls="collapseEight">
             <span>Минеральный состав</span>
         </a>
-        <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionSidebar">
+        <div id="collapseEight" class="collapse {% if expand_minerals_ingredients %}show{% endif %}" aria-labelledby="headingEight" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'minerals_ingredients_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'minerals_ingredients_create' %}">Добавить запись</a>
@@ -79,11 +79,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTen"
+        <a class="nav-link {% if expand_aminoacids_ingredients %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseTen"
             aria-expanded="true" aria-controls="collapseTen">
             <span>Аминокислотный состав</span>
         </a>
-        <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#accordionSidebar">
+        <div id="collapseTen" class="collapse {% if expand_aminoacids_ingredients %}show{% endif %}" aria-labelledby="headingTen" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'aminoacids_ingredients_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'aminoacids_ingredients_create' %}">Добавить запись</a>
@@ -91,11 +91,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEleven"
+        <a class="nav-link {% if expand_chemicals_ingredients %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseEleven"
             aria-expanded="true" aria-controls="collapseEleven">
             <span>Химический состав</span>
         </a>
-        <div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="#accordionSidebar">
+        <div id="collapseEleven" class="collapse {% if expand_chemicals_ingredients %}show{% endif %}" aria-labelledby="headingEleven" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'chemicals_ingredients_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'chemicals_ingredients_create' %}">Добавить запись</a>
@@ -112,11 +112,11 @@
         </div>
 
     <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwelve"
+            <a class="nav-link {% if expand_products %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseTwelve"
                 aria-expanded="true" aria-controls="collapseTwelve">
                 <span>Продукты</span>
             </a>
-            <div id="collapseTwelve" class="collapse" aria-labelledby="headingTwelve" data-parent="#accordionSidebar">
+            <div id="collapseTwelve" class="collapse {% if expand_products %}show{% endif %}" aria-labelledby="headingTwelve" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{% url 'products_all' %}">Список записей</a>
                     <a class="collapse-item" href="{% url 'products_create' %}">Добавить запись</a>
@@ -124,11 +124,11 @@
             </div>
         </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+        <a class="nav-link {% if expand_types %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseThree"
             aria-expanded="true" aria-controls="collapseTwo">
             <span>Типы</span>
         </a>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+        <div id="collapseThree" class="collapse {% if expand_types %}show{% endif %}" aria-labelledby="headingThree" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'types_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'types_create' %}">Добавить запись</a>
@@ -136,11 +136,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+        <a class="nav-link {% if expand_fatacids %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseFour"
             aria-expanded="true" aria-controls="collapseFour">
             <span>Жирнокисотный состав</span>
         </a>
-        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+        <div id="collapseFour" class="collapse {% if expand_fatacids %}show{% endif %}" aria-labelledby="headingFour" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'fatacids_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'fatacids_create' %}">Добавить запись</a>
@@ -148,11 +148,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
+        <a class="nav-link {% if expand_minerals %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseFive"
             aria-expanded="true" aria-controls="collapseive">
             <span>Минеральный состав</span>
         </a>
-        <div id="collapseFive" class="collapse" aria-labelledby="headingive" data-parent="#accordionSidebar">
+        <div id="collapseFive" class="collapse {% if expand_minerals %}show{% endif %}" aria-labelledby="headingive" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'minerals_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'minerals_create' %}">Добавить запись</a>
@@ -160,11 +160,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
+        <a class="nav-link {% if expand_aminoacids %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseSix"
             aria-expanded="true" aria-controls="collapseSix">
             <span>Аминокислотный состав</span>
         </a>
-        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionSidebar">
+        <div id="collapseSix" class="collapse {% if expand_aminoacids %}show{% endif %}" aria-labelledby="headingSix" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'aminoacids_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'aminoacids_create' %}">Добавить запись</a>
@@ -172,11 +172,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven"
+        <a class="nav-link {% if expand_chemicals %}{% else %}collapsed{% endif %}" href="#" data-toggle="collapse" data-target="#collapseSeven"
             aria-expanded="true" aria-controls="collapseSeven">
             <span>Химимческий состав</span>
         </a>
-        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionSidebar">
+        <div id="collapseSeven" class="collapse {% if expand_chemicals %}show{% endif %}" aria-labelledby="headingSeven" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'chemicals_all' %}">Список записей</a>
                 <a class="collapse-item" href="{% url 'chemicals_create' %}">Добавить запись</a>
