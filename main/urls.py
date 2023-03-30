@@ -6,6 +6,7 @@ urlpatterns = [
     #Main page index
     path('', views.index, name='index'),
 
+
     #Admin urls
     path('accounts/login/', views.login_page, name='login_page'),
     path('accounts/login/success/', views.authorization, name='authorizate'),
@@ -15,6 +16,12 @@ urlpatterns = [
     path(r'admin-panel/profile/update/^/change_password/', views.ChangePasswordView.as_view(), name = 'change_password'),
     path('admin-panel/main/', views.AdminMain.as_view(), name='admin_panel'),
     path('admin-panel/testmethod/', views.test, name='test'),
+
+    # Reset password
+    path("accounts/password_reset/", views.password_reset_request, name="password_reset"),
+    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name="admin/pages/user/password_reset_done.html"), name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="admin/pages/user/password_reset_confirm.html"), name='password_reset_confirm'),
+    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name="admin/pages/user/password_reset_complete.html"), name='password_reset_complete'),
 
     # Ingredients View
     path('admin-panel/ingredients/all/', views.IngredientsListView.as_view(), name='ingredients_all'),
@@ -35,10 +42,10 @@ urlpatterns = [
     path('admin-panel/ingredients_category/delete/<int:id>/', views.ingredients_category_delete, name='ingredients_category_delete'),
 
     # FatAcids Ingredients View
-    path('admin-panel/fatacids/all/', views.FatAcidsIngredientsListView.as_view(), name='fatacids_ingredients_all'),
-    path('admin-panel/fatacids/create/', views.FatAcidsIngredientsCreateView.as_view(), name='fatacids_ingredients_create'),
-    path('admin-panel/fatacids/update/<int:pk>/', views.FatAcidsIngredientsUpdateView.as_view(), name='fatacids_ingredients_update'),
-    path('admin-panel/fatacids/delete/<int:id>/', views.fatacids_ingredients_delete, name='fatacids_ingredients_delete'),
+    path('admin-panel/fatacids_ingredients/all/', views.FatAcidsIngredientsListView.as_view(), name='fatacids_ingredients_all'),
+    path('admin-panel/fatacids_ingredients/create/', views.FatAcidsIngredientsCreateView.as_view(), name='fatacids_ingredients_create'),
+    path('admin-panel/fatacids_ingredients/update/<int:pk>/', views.FatAcidsIngredientsUpdateView.as_view(), name='fatacids_ingredients_update'),
+    path('admin-panel/fatacids_ingredients/delete/<int:id>/', views.fatacids_ingredients_delete, name='fatacids_ingredients_delete'),
 
     # Minerals Ingredients View
     path('admin-panel/minerals_ingredients/all/', views.MineralsIngredientsListView.as_view(), name='minerals_ingredients_all'),
@@ -53,13 +60,10 @@ urlpatterns = [
     path('admin-panel/aminoacids_ingredients/delete/<int:id>/', views.aminoacids_ingredients_delete, name='aminoacids_ingredients_delete'),
 
     # Chemicals Ingredients View
-    path('admin-panel/chemicals/all/', views.ChemicalsIngredientsListView.as_view(), name='chemicals_ingredients_all'),
-    path('admin-panel/chemicals/create/', views.ChemicalsIngredientsCreateView.as_view(), name='chemicals_ingredients_create'),
-    path('admin-panel/chemicals/update/<int:pk>/', views.ChemicalsIngredientsUpdateView.as_view(), name='chemicals_ingredients_update'),
-    path('admin-panel/chemicals/delete/<int:id>/', views.chemicals_ingredients_delete, name='chemicals_ingredients_delete'),
-
-
-
+    path('admin-panel/chemicals_ingredients/all/', views.ChemicalsIngredientsListView.as_view(), name='chemicals_ingredients_all'),
+    path('admin-panel/chemicals_ingredients/create/', views.ChemicalsIngredientsCreateView.as_view(), name='chemicals_ingredients_create'),
+    path('admin-panel/chemicals_ingredients/update/<int:pk>/', views.ChemicalsIngredientsUpdateView.as_view(), name='chemicals_ingredients_update'),
+    path('admin-panel/chemicals_ingredients/delete/<int:id>/', views.chemicals_ingredients_delete, name='chemicals_ingredients_delete'),
 
 
     # Products View

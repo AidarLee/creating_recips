@@ -69,6 +69,7 @@
                             <th class="font-weight-bold">№</th>
                             <th class="font-weight-bold">Наименование продукта</th>
                             <th class="font-weight-bold">Категория</th>
+                            <th class="font-weight-bold">Регион</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -77,6 +78,7 @@
                             <td>{{forloop.counter}}</td>
                             <td><label class="badge font-weight-bold">{{products.attribute_name}}</label></td>
                             <td><label class="badge badge-warning">{{products.types.Name_of_type}}</label></td>
+                            <td><label class="badge badge-warning">{{products.types.Category.Region}}</label></td>
                             <td class="edit-delete-icons">
                               <a href="{% url 'products_update' products.id %}"><i class="fa fa-pen-square"></i></a> |
                               <a href="{% url 'products_delete' products.id %}" class="text-danger"><i class="fa fa-trash"></i></i></a>

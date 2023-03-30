@@ -1,0 +1,87 @@
+{% extends "admin/admin_base.html" %}
+
+{% load static %}
+{% block admin_title %}Изменить профиль{% endblock admin_title %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">Изменение данных</h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'update_profile' %}">Профиль</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Изменение</li>
+        </ol>
+      </nav>
+    </div>
+
+    {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %} 
+    {% if messages %} 
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger" role="alert">{{message}}</div>
+            {% elif message.tags == "success" %}
+            <div class="alert alert-success" role="alert">{{message}}</div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+        <div class="card-body">
+        <div class="form-content">
+            <h4 class="card-title">Изменить данные</h4>
+            <form method="post" enctype="multipart/form-data">
+                
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="username">Имя пользователя</label>
+                                {{ form.username }}
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="email">Email</label>
+                                {{ form.email }}
+                        </div>
+                        <div class="form-group">
+                              <a href="{% url 'change_password' %}">Изменить пароль</a>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
+                <a href="{% url 'admin_panel' %}" class="btn btn-dark btn-lg">Отменить</a>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+{% endblock content %}
+
+{% block custom_js%}
+<!-- plugins:js -->
+<script src="{% static 'admin-panel/vendors/js/vendor.bundle.base.js' %}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="{% static 'admin-panel/js/custom.js' %}"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="{% static 'admin-panel/js/off-canvas.js' %}"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<!-- End custom js for this page -->
+{% endblock custom_js %}

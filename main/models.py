@@ -54,20 +54,22 @@ class FatAcidsTypeChoice(models.TextChoices):
     TYPE_1 = "Насыщенные жирные кислоты, %", "Насыщенные жирные кислоты, %"
     TYPE_2 = "Мононенасыщенные жирные кислоты, %", "Мононенасыщенные жирные кислоты, %"
     TYPE_3 = "Полиненасыщенные жирные кислоты, %", "Полиненасыщенные жирные кислоты, %"
-
-
-class IngredientsCategory(models.Model):
-    name = models.CharField(verbose_name='Наименование Категории', max_length=40)
     
+# Продукты
+class Products(models.Model):
+    attribute_name = models.CharField(verbose_name='Наименование продукта', max_length=75)
+    types = models.ForeignKey(Types, on_delete=models.RESTRICT, verbose_name='Тип продукта')
+    date_analis = models.DateField(verbose_name='Дата исследования', default=timezone.now)
+
     class Meta:
-        verbose_name = ' -- (Категории ингредиента) -- '
-        
+        verbose_name = ' -- Наименование продукта -- '
     def __str__(self) -> str:
-        return self.name
+        return f"{self.attribute_name} - {self.types.Category.Region}"
+
 # Ингредиенты
 class Ingredients(models.Model):
     name = models.CharField(verbose_name='Наименование ингредиента', max_length=40)
-    category = models.ForeignKey(IngredientsCategory, on_delete=models.RESTRICT, verbose_name='Категория', blank=True, null=True)
+    category = models.ForeignKey(Categories, on_delete=models.RESTRICT, verbose_name='Категория', blank=True, null=True)
     
     class Meta:
         verbose_name = ' -- (Наименование ингредиента) -- '
@@ -150,20 +152,7 @@ class MineralsIngredients(models.Model):
     def __str__(self) -> str:
         return self.ingredient
     
-
-    
-        
-# Продукты
-class Products(models.Model):
-    attribute_name = models.CharField(verbose_name='Наименование продукта', max_length=75)
-    types = models.ForeignKey(Types, on_delete=models.RESTRICT, verbose_name='Тип продукта')
-    date_analis = models.DateField(verbose_name='Дата исследования', default=timezone.now)
-
-    class Meta:
-        verbose_name = ' -- Наименование продукта -- '
-    def __str__(self) -> str:
-        return self.attribute_name
-    
+   
 # Жирнокислотный состав
 class FatAcids(models.Model):
     product = models.ForeignKey(Products, on_delete=models.RESTRICT)
@@ -177,8 +166,9 @@ class FatAcids(models.Model):
     
     class Meta:
         verbose_name = ' -- (Виды Жирнокислоты) -- '
+
     def __str__(self) -> str:
-        return self.name
+        return self.product
     
 # Минеральный состав
 class MineralComposition(models.Model):

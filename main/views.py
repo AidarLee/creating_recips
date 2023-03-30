@@ -29,6 +29,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
+from django.db.models import Count
 
 
 # Create your views here.
@@ -71,24 +72,59 @@ def authorization(request):
                 login(request, account)
                 return redirect(success_url)
             else:
-                messages.error(request, "Логин или пароль неправильно")
+                messages.error(request, "Неверный логин или пароль!")
                 return redirect('login_page')
    
+def password_reset_request(request):
+    settings.EMAIL_HOST_USER='kyrgyzindustry.portal.01@gmail.com'
+    settings.EMAIL_HOST_PASSWORD='jenpktauntyqbeum'
+    if request.method == "POST":
+        
+        password_reset_form = UserPasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            associated_users = User.objects.filter(Q(email=data))
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = "Запрос на сброс данных"
+                    email_template_name = "admin/pages/user/forgot-password-email.html"
+                    c = {
+                        "email":user.email,
+                        'domain':'http://127.0.0.1:8000',
+                        'site_name': 'Website',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "user": user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http',
+                        }
+                    email = render_to_string(email_template_name, c)
+                    
+                    try:
+                        send_mail(subject, email, 'zenisbekovk04@gmail.com' , [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        
+                        return HttpResponse('Invalid header found.')
+                    
+                    return redirect ("/accounts/password_reset/done/")
+    password_reset_form = UserPasswordResetForm()
+    return render(request=request, template_name="admin/pages/user/forgot-password-email.html", context={"password_reset_form":password_reset_form})
+
+
 
 def logout_page(request):
     logout(request)
     return redirect('login_page')
 
 class ProfileView(View):
+    login_url = "login_page"
     model = User
     form_class = UpdateUserForm
     success_url = reverse_lazy('update_profile')
     
 
 class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, ProfileView, UpdateView):
-    login_url = "login_page"
     success_message = "Данные успешно изменены"
-    template_name = 'admin/pages/update.html'
+    template_name = 'admin/pages/user/update.html'
     def get_object(self, queryset=None):
         '''This method will load the object
            that will be used to load the form
@@ -96,7 +132,7 @@ class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, ProfileView, Up
         return self.request.user
     
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    template_name = 'admin/pages/forgot-password-email.html'
+    template_name = 'admin/pages/user/forgot-password-email.html'
     success_message = "Пароль успешно изменён"
     success_url = reverse_lazy('update_profile') 
 
@@ -123,40 +159,6 @@ def admin_form_page(request):
         "user" : user_name
     }
     return render(request, template_name, context)
-
-def password_reset_request(request):
-    settings.EMAIL_HOST_USER='kyrgyzindustry.portal.01@gmail.com'
-    settings.EMAIL_HOST_PASSWORD='jenpktauntyqbeum'
-    if request.method == "POST":
-        
-        password_reset_form = UserPasswordResetForm(request.POST)
-        if password_reset_form.is_valid():
-            data = password_reset_form.cleaned_data['email']
-            associated_users = User.objects.filter(Q(email=data))
-            if associated_users.exists():
-                for user in associated_users:
-                    subject = "Запрос на сброс данных"
-                    email_template_name = "admin/pages/forgot-password-email.html"
-                    c = {
-                        "email":user.email,
-                        'domain':'http://127.0.0.1:8000',
-                        'site_name': 'Website',
-                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                        "user": user,
-                        'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
-                        }
-                    email = render_to_string(email_template_name, c)
-                    
-                    try:
-                        send_mail(subject, email, 'zenisbekovk04@gmail.com' , [user.email], fail_silently=False)
-                    except BadHeaderError:
-                        
-                        return HttpResponse('Invalid header found.')
-                    
-                    return redirect ("/accounts/password_reset/done/")
-    password_reset_form = UserPasswordResetForm()
-    return render(request=request, template_name="admin/pages/forgot-password.html", context={"password_reset_form":password_reset_form})
 
 
 #       Admin-panel
@@ -198,38 +200,148 @@ def cart(request):
 
     return render(request, 'client/pages/cart.html')
 
+
+def value_sum(value, sum) -> None:
+        return value / sum
+ 
+
+class aminoAc():
+    
+    def __init__(self, asparing, glutamin, serin, gistidin, glitsin, treonin, arginin, alanin, tirosin, tsistein, valin, metionin, triptofan, fenilalalin, izoleitsin, leitsin, lisin, prolin):
+        self.asparing = asparing
+        self.glutamin = glutamin
+        self.serin = serin
+        self.gistidin = gistidin
+        self.glitsin = glitsin
+        self.treonin = treonin
+        self.arginin = arginin
+        self.alanin = alanin
+        self.tirosin = tirosin
+        self.tsistein = tsistein
+        self.valin = valin
+        self.metionin = metionin
+        self.triptofan = triptofan
+        self.fenilalalin = fenilalalin
+        self.izoleitsin = izoleitsin
+        self.leitsin = leitsin
+        self.lisin = lisin
+        self.prolin = prolin
+
+
+class ChemlProd():
+    
+    def __init__(self, product, soluable_solids, ascorbic_acids, ash_content, moisture, protein, fat):
+        self.product = product
+        self.soluable_solids = soluable_solids
+        self.ascorbic_acids = ascorbic_acids
+        self.ash_content = ash_content
+        self.moisture = moisture
+        self.protein = protein
+        self.fat = fat
+
+    
+
+
 #Meels Recips
 def meels(request):
-    products = Products.objects.all()
-    
-    categories = []
-    for p in products:
-        if p.types.Category.Name_of_category == "Мясные":
-            categories.append(p.types)
-            
-    print(categories)
+    ingredient = Ingredients.objects.all()
+
+    MyClass = ChemlProd
+
+    chemics = ChemlProd.__dict__
+    amoinacids = aminoAc.__dict__
+
+    types = Types.objects.all()
+    cat = Categories.objects.values('Name_of_category').annotate(total=Count('Name_of_category'))
+
     protein = 0
     check = None
     region_choices = RegionChoice.choices
     # print(type(region_choices))
     hide_ingredients = None
+    size = 0
+    size = request.POST.get("counter")
+    product = request.POST.get("product-name")
 
-    region = request.GET.get('region')
-    meal = request.GET.get('meal')
-    mass_fraction = request.GET.get('massfraction')
-    price = request.GET.get('price')
+    prod_reg = request.GET.get("region_prod")
+   
+    arr = 0
+    sum = 0
+    ss = 0
+
+    soluables_value = 0
+    ascorbics_value = 0
+    ash_contents_value = 0
+    moisture_value = 0
+    Proteins_value = 0
+    summ_price = 0
+    price_100 = 0
+    price_1kg = 0
+    fatacids_value = 0
+
+    if request.method == "POST":
+        if size is not None and size != 0:
+            for i in range(0, int(size)+1):
+                reg = request.POST.get(f'region_{i}')
+                ing = request.POST.get(f'ing_{i}')
+                mass_fraction = request.POST.get(f'massfraction_{i}')
+                price = request.POST.get(f'price_{i}')
+
+                try:
+                    chemical_comp = ChemicalsIngredients.objects.get(ingredient=ing)
+                    soluables_value += chemical_comp.soluable_solids
+                    ascorbics_value += chemical_comp.ascorbic_acids
+                    ash_contents_value += chemical_comp.ash_content
+                    moisture_value += chemical_comp.moisture
+                    summ_price = summ_price + float(price)
+                    Proteins_value += float(mass_fraction) * chemical_comp.protein
+                    fatacids_value += float(mass_fraction) * chemical_comp.fat
+
+                    summ_price = float(price) * float(mass_fraction) / 1000         
+
+                    price_100 += float(summ_price) * (100 / float(mass_fraction))
+                    price_100 = round(price_100, 3)
+                    price_1kg += float(summ_price) * (1000 / float(mass_fraction))
+                    price_1kg = round(price_1kg, 3)
+
+                    MyClass.product = product
+                    
+                    ss += float(mass_fraction)
+
+                    Proteins_value = value_sum(Proteins_value, ss)
+                    fatacids_value = value_sum(fatacids_value, ss)
+                    Proteins_value = float("{:.2f}".format(3.8956))
+                    fatacids_value = float("{:.2f}".format(3.6785))
+
+                    MyClass.soluable_solids = soluables_value
+                    MyClass.ascorbic_acids = ascorbics_value
+                    MyClass.ash_content = ash_contents_value
+                    MyClass.ash_content = soluables_value
+                    MyClass.moisture = moisture_value
+                    MyClass.protein = Proteins_value
+                    MyClass.fat = fatacids_value
+                    
+
+                except Chemicals.DoesNotExist:
+                    check = True
+
+                context= {
+                    'price_100' : price_100,
+                    'price_1kg' : price_1kg,
+                    'ingredient': ingredient,
+                    'Protein_value': Proteins_value,
+                    "MyClass": chemics,
+                    "regions" : region_choices,
+                    "hide_ingredients" : hide_ingredients,
+                }
+
+            return render(request, 'client/pages/meels.html', context)
+        elif size == 0:
+            reg = request.POST.get(f'region_0', None)
 
     
     not_exist = False
-    
-    try:
-        chemical_comp = Chemicals.objects.get(product=meal)
-        protein = (float(mass_fraction) * chemical_comp.protein) / float(mass_fraction)
-        print(mass_fraction)
-        
-    except Chemicals.DoesNotExist:
-        check = True
-
+   
     try:
         chemical_comp = Chemicals.objects.all()
         # protein = (float(mass_fraction) * float(Chemicals.model.protein)) / float(mass_fraction)
@@ -241,16 +353,18 @@ def meels(request):
     # else:
 
     context= {
-        'products': products,
-        'categories' : categories,
-        "protein" : protein,
+        'ingredient': ingredient,
         "hide_result" : check,
-        "not_exist" : not_exist,
+        "categories": cat,
+        "types": types,
+        "amoinacids": amoinacids,
+        "MyClass": chemics,
         "regions" : region_choices,
         "hide_ingredients" : hide_ingredients,
     }
 
     return render(request, 'client/pages/meels.html', context)
+
 
 # Milks Recips
 def milks(request):
@@ -407,7 +521,7 @@ def products_delete(request, id):
     return render(request, "admin/pages/products/products_delete_confirm.html", context)  
 
 
-# Products CRUD operations
+# Categories CRUD operations
 
 class CategoriesView(View):
     model = Categories
@@ -491,7 +605,7 @@ def ingredients_delete(request, id):
             "active_ingredients" : "active",
             "expand_ingredients" : "show",
     }
-    obj = get_object_or_404(Products, id = id)
+    obj = get_object_or_404(Ingredients, id = id)
     if request.method =="POST":
         
         try:
@@ -568,7 +682,7 @@ def types_delete(request, id):
 # Typs CRUD operations
 
 class IngredientsCategoryView(View):
-    model = IngredientsCategory
+    model = Categories
     form_class = IngredientsCategoriesForm
     login_url = "login_page"
     active_panel = "ingredients_category-panel"
@@ -598,7 +712,7 @@ def ingredients_category_delete(request, id):
             "active_ingredients_category" : "active",
             "expand_ingredients_category" : "show",
     }
-    obj = get_object_or_404(IngredientsCategory, id = id)
+    obj = get_object_or_404(Categories, id = id)
     if request.method =="POST":
         
         try:
@@ -608,6 +722,9 @@ def ingredients_category_delete(request, id):
             # home page
             messages.success(request, "Запись успешно удалено!")
             return redirect("ingredients_category_all")
+        except models.RestrictedError as e:
+            messages.error(request, "Нельзя удалить категорию, потому что имеется запись ингредиента в данной категории!")
+            return redirect("chemicals_delete")
         except Exception as e:
             messages.error(request, "Не удалось удалить запись, повторите попытку!")
             return redirect("ingredients_category_delete")
@@ -1010,17 +1127,23 @@ def chemicals_delete(request, id):
         except Exception as e:
             messages.error(request, "Не удалось удалить запись, повторите попытку!")
             return redirect("chemicals_delete")
- 
+    
     return render(request, "admin/pages/chemicals/chemicals_delete_confirm.html", context)
+
+
 def product_details(request, id):
         
     product_id = Products.objects.get(id=id)
-    products= Products.objects.get(id=id)
     fatacids = FatAcids.objects.filter(product=id)
+    mineracomp = MineralComposition.objects.filter(product=id)
+    amoinacids = AminoAcidComposition.objects.filter(product=id)
+    chemicals = Chemicals.objects.filter(product=id)
     context= {
         'product_id': product_id,
-        'products': products,
-        'fatacids': fatacids
+        'fatacids': fatacids,
+        'mineracomp': mineracomp ,
+        'amoinacids': amoinacids,
+        'chemicals': chemicals,
     }
         
     return render(request, 'client/pages/details.html',context)

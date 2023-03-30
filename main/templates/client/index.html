@@ -16,11 +16,11 @@
 					<div class="col-md-12 col-lg-7 offset-lg-1 offset-xl-0">
 						<div class="hero-text">
 							<div class="hero-text-tablecell">
-								<p class="subtitle">Fresh & Organic</p>
-								<h1>Delicious Seasonal Fruits</h1>
+								<p class="subtitle">Проектирование продуктов</p>
+								<h1>Бишкекский ЦИСМ</h1>
 								<div class="hero-btns">
-									<a href="shop.html" class="boxed-btn">Fruit Collection</a>
-									<a href="contact.html" class="bordered-btn">Contact Us</a>
+									<a href="{% url 'meels' %}" class="boxed-btn">Рассчитать</a>
+									<a href="{% url 'contact' %}" class="bordered-btn">Связаться с нами	</a>
 								</div>
 							</div>
 						</div>
@@ -35,11 +35,11 @@
 					<div class="col-lg-10 offset-lg-1 text-center">
 						<div class="hero-text">
 							<div class="hero-text-tablecell">
-								<p class="subtitle">Fresh Everyday</p>
+								<p class="subtitle">Слайд №2</p>
 								<h1>100% Organic Collection</h1>
 								<div class="hero-btns">
-									<a href="shop.html" class="boxed-btn">Visit Shop</a>
-									<a href="contact.html" class="bordered-btn">Contact Us</a>
+									<a href="{% url 'meels' %}" class="boxed-btn">Рассчитать</a>
+									<a href="{% url 'contact' %}" class="bordered-btn">Связаться с нами	</a>
 								</div>
 							</div>
 						</div>
@@ -54,11 +54,11 @@
 					<div class="col-lg-10 offset-lg-1 text-right">
 						<div class="hero-text">
 							<div class="hero-text-tablecell">
-								<p class="subtitle">Mega Sale Going On!</p>
+								<p class="subtitle">Слайд №3</p>
 								<h1>Get December Discount</h1>
 								<div class="hero-btns">
-									<a href="shop.html" class="boxed-btn">Visit Shop</a>
-									<a href="contact.html" class="bordered-btn">Contact Us</a>
+									<a href="{% url 'meels' %}" class="boxed-btn">Рассчитать</a>
+									<a href="{% url 'contact' %}" class="bordered-btn">Связаться с нами	</a>
 								</div>
 							</div>
 						</div>
@@ -96,19 +96,19 @@
 				<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="{% url 'milks' %}"><img src="{% static 'client/img/products/milk.JPEG'%}" alt=""></a>
+							<a href="{% url 'meels' %}"><img src="{% static 'client/img/products/milk.JPEG'%}" alt=""></a>
 						</div>
 						<h3>Молочные</h3>
-						<a href="{% url 'milks' %}" class="cart-btn"><i class="fas"></i>Спроектировать</a>
+						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Спроектировать</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="{% url 'bakery' %}"><img src="{% static 'client/img/products/bakery.JPEG'%}" alt=""></a>
+							<a href="{% url 'meels' %}"><img src="{% static 'client/img/products/bakery.JPEG'%}" alt=""></a>
 						</div>
 						<h3>Хлебобулочные</h3>
-						<a href="{% url 'bakery' %}" class="cart-btn"><i class="fas"></i>Спроектировать</a>
+						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Спроектировать</a>
 					</div>
 				</div>
 			</div>
@@ -116,8 +116,8 @@
 	</div>
 	<!-- end product section -->
 
-	<!-- testimonail-section -->
-	<div class="testimonail-section mt-150 mb-150">
+	
+	<!-- <div class="testimonail-section mt-150 mb-150">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 offset-lg-1 text-center">
@@ -168,7 +168,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- end testimonail-section -->
 	
 	<!-- advertisement section -->

@@ -41,6 +41,15 @@ class UserSetPasswordForm(SetPasswordForm):
 
 # Форма для профиля   
 class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['last_name', 'first_name', 'username', 'email']
+    last_name = forms.CharField(max_length=100,
+                               required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control', "id" : "last_name", "placeholder" : "Введите Имя"}))
+    first_name = forms.CharField(max_length=100,
+                               required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control', "id" : "first_name", "placeholder" : "Введите Фамилию"}))
     username = forms.CharField(max_length=100,
                                required=True,
                                widget=forms.TextInput(attrs={'class': 'form-control', "id" : "username", "placeholder" : "Введите Имя Пользователя"}))
@@ -60,18 +69,25 @@ class IngredientsForm(ModelForm):
     name = forms.CharField(max_length=80, required=True, widget=TextInput(
             attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите наименование ингредиента", "size" : 80},
             ))
-    category = forms.ModelChoiceField(queryset=IngredientsCategory.objects.all(), 
+    category = forms.ModelChoiceField(queryset=Categories.objects.all(), 
                                      widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
             ))
     
 class IngredientsCategoriesForm(ModelForm):
     class Meta:
-        model = IngredientsCategory
-        fields = ['name']
+        model = Categories
+        fields = ['Name_of_category', 'Region']
     
-    name = forms.CharField(max_length=80, required=True, widget=TextInput(
+    Name_of_category = forms.CharField(max_length=80, required=True, widget=TextInput(
             attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите категорию ингредиента", "size" : 80},
             ))
+    Region = forms.ChoiceField(
+                                choices=RegionChoice.choices,
+                                widget= forms.Select(
+                                        attrs={"class" : "form-control", "id" : "Region"}
+                                    ),
+                                required=True
+                            )
 
 
 class FatAcidsIngredientsForm(ModelForm):

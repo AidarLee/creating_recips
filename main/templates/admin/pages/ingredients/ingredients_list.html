@@ -67,7 +67,7 @@
                         <thead>
                           <tr>
                             <th class="font-weight-bold">№</th>
-                            <th class="font-weight-bold">Наименование продукта</th>
+                            <th class="font-weight-bold">Наименование ингредиента</th>
                             <th class="font-weight-bold">Категория</th>
                           </tr>
                         </thead>
@@ -76,7 +76,7 @@
                           <tr>
                             <td>{{forloop.counter}}</td>
                             <td><label class="badge font-weight-bold">{{ingredients.name}}</label></td>
-                            <td><label class="badge badge-warning">{{ingredients.category.name}}</label></td>
+                            <td><label class="badge badge-warning">{{ingredients.category.Name_of_category}}</label></td>
                             <td class="edit-delete-icons">
                               <a href="{% url 'ingredients_update' ingredients.id %}"><i class="fa fa-pen-square"></i></a> |
                               <a href="{% url 'ingredients_delete' ingredients.id %}" class="text-danger"><i class="fa fa-trash"></i></i></a>

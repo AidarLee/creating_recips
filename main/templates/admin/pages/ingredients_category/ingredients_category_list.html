@@ -43,7 +43,7 @@
 
                     <div class="table-responsive">
                       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        {% if ingredientscategory_list %}
+                        {% if categories_list %}
 
                         <div class="row">
                           <div class="col-sm-12 col-md-10">
@@ -67,16 +67,16 @@
                         <thead>
                           <tr>
                             <th class="font-weight-bold">№</th>
-                            <th class="font-weight-bold">Наименование продукта</th>
-                            <th class="font-weight-bold">Категория</th>
+                            <th class="font-weight-bold">Наименование категории</th>
+                            <th class="font-weight-bold">Регион</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {% for ingredients in ingredientscategory_list %}
+                          {% for ingredients in categories_list %}
                           <tr>
                             <td>{{forloop.counter}}</td>
-                            <td><label class="badge font-weight-bold">{{ingredients.name}}</label></td>
-                            <td><label class="badge badge-warning">{{ingredients.category.Name_of_category}}</label></td>
+                            <td><label class="badge font-weight-bold">{{ingredients.Name_of_category}}</label></td>
+                            <td><label class="badge badge-warning">{{ingredients.Region}}</label></td>
                             <td class="edit-delete-icons">
                               <a href="{% url 'ingredients_category_update' ingredients.id %}"><i class="fa fa-pen-square"></i></a> |
                               <a href="{% url 'ingredients_category_delete' ingredients.id %}" class="text-danger"><i class="fa fa-trash"></i></i></a>

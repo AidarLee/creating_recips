@@ -15,32 +15,17 @@
                     <!-- logo -->
 
                     <!-- menu start -->
-                    <nav class="main-menu">
+                    <nav class="main-menu d-flex justify-content-center ">
                         <ul>
                             <li><a href="{% url 'index' %}">Главная</a>
                             </li>
                             <li><a href="{% url 'about-us' %}">О нас</a></li>
-                            <li><a href="#">Проектирование</a>
-                                <ul class="sub-menu">
-                                    <li><a href="{% url 'meels' %}">Мясных продуктов</a></li>
-                                    <li><a href="{% url 'milks' %}">Молочных продуктов</a></li>
-                                    <li><a href="{% url 'bakery' %}">Хлебобулочных изделий</a></li>
-                                </ul>
+                            <li><a href="{% url 'meels' %}">Проектирование</a>
                             </li>
                             <li><a href="{% url 'list-of-products' %}">Продукты питания</a></li>
                             <li><a href="{% url 'contact' %}">Свяжитесь с нами</a></li>
-                            <li>
-                                <div class="header-icons">  
-                            <li><a href="{% url 'contact' %}">Свяжитесь с нами</a></li>
-                            <li>
-                                <div class="header-icons">
-                                    <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                </div>
-                            </li>
                         </ul>
                     </nav>
-                    <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                    <div class="mobile-menu"></div>
                     <!-- menu end -->
                 </div>
             </div>

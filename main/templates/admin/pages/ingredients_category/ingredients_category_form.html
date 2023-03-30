@@ -39,9 +39,13 @@
             <form class="forms-sample" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group col-6">
-                <label for="{{ form.name.id_for_label }}" class="font-weight-bold">Наименование</label>
-                {{ form.name }}
-                {{ form.name.errors }}
+                <label for="{{ form.Name_of_category.id_for_label }}" class="font-weight-bold">Наименование:</label>
+                {{ form.Name_of_category }}
+                {{ form.Name_of_category.errors }}
+            </div>
+            <div class="form-group col-6">
+                <label for="{{ form.Region.id_for_label }}" class="font-weight-bold">Выберите регион:</label>
+                {{ form.Region }}
             </div>
 
             <button type="submit" class="btn btn-primary mr-2">Сохранить</button>

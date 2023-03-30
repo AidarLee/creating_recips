@@ -21,23 +21,25 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTherteen"
+            aria-expanded="true" aria-controls="collapseTherteen">
+            <span>Категории</span>
+        </a>
+        <div id="collapseTherteen" class="collapse" aria-labelledby="headingTherteen" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'categories_all' %}">Список записей</a>
+                <a class="collapse-item" href="{% url 'categories_create' %}">Добавить запись</a>
+            </div>
+        </div>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
     <!-- Heading -->
     <div class="sidebar-heading">
         Ингредиенты
     </div>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
-            aria-expanded="true" aria-controls="collapseOne">
-            <span>Категории ингредиентов</span>
-        </a>
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{% url 'ingredients_category_all' %}">Список записей</a>
-                <a class="collapse-item" href="{% url 'ingredients_category_create' %}">Добавить запись</a>
-            </div>
-        </div>
-    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -109,19 +111,6 @@
             Продукты
         </div>
 
-
-    <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTherteen"
-                aria-expanded="true" aria-controls="collapseTherteen">
-                <span>Категории продуктов</span>
-            </a>
-            <div id="collapseTherteen" class="collapse" aria-labelledby="headingTherteen" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{% url 'categories_all' %}">Список записей</a>
-                    <a class="collapse-item" href="{% url 'categories_create' %}">Добавить запись</a>
-                </div>
-            </div>
-    </li>
     <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwelve"
                 aria-expanded="true" aria-controls="collapseTwelve">
