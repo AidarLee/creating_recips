@@ -18,10 +18,12 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            <a class="collapse-item" href="{% url 'categories_create' %}">Добавить категорию</a></div>
+                                            <a class="collapse-item" href="{% url 'categories_create' %}">Добавить категорию</a> </div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                        <a class="collapse-item" href="{% url 'categories_create' %}">
+                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +49,9 @@
                                                 <a class="collapse-item" href="{% url 'ingredients_create' %}">Добавить ингредиент</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'ingredients_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +68,9 @@
                                                 <a class="collapse-item" href="{% url 'fatacids_ingredients_create' %}">Добавить жирнокислотный состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'fatacids_ingredients_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +87,9 @@
                                                 <a class="collapse-item" href="{% url 'minerals_ingredients_create' %}">Добавить минеральный состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'minerals_ingredients_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -95,10 +103,12 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                <a class="collapse-item" href="{% url 'aminoacids_create' %}">Добавить аминокислотный состав</a></div>
+                                                <a class="collapse-item" href="{% url 'aminoacids_ingredients_create' %}">Добавить аминокислотный состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'aminoacids_ingredients_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -112,10 +122,12 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                <a class="collapse-item" href="{% url 'chemicals_create' %}">Добавить химический состав</a></div>
+                                                <a class="collapse-item" href="{% url 'chemicals_ingredients_all' %}">Добавить химический состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'chemicals_ingredients_all' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +153,9 @@
                                                 <a class="collapse-item" href="{% url 'products_create' %}">Добавить Продукт</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'products_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +172,9 @@
                                                 <a class="collapse-item" href="{% url 'fatacids_create' %}">Добавить жирнокислотный состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'fatacids_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +191,9 @@
                                                 <a class="collapse-item" href="{% url 'minerals_create' %}">Добавить минеральный состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'minerals_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -192,7 +210,9 @@
                                                 <a class="collapse-item" href="{% url 'aminoacids_create' %}">Добавить аминокислотный состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'aminoacids_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -202,14 +222,16 @@
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
+                                <div class="card-body"> 
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 <a class="collapse-item" href="{% url 'chemicals_create' %}">Добавить химический состав</a></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            <a class="collapse-item" href="{% url 'chemicals_create' %}">
+                                                <i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

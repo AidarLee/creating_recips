@@ -1,0 +1,337 @@
+{% load static %}
+{% load i18n %}
+    <hr>
+    <div class="wrapper print-to-pdf">
+        <div class="row">
+            <div class="col-lg-6 align-self-center chart-print">
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div>
+                            <canvas id="myChartBar"></canvas>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">{% translate "График Качественные показатeли белкового компонента" %}</h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Donut Chart -->
+            <div class="col-lg-6 chart-print">
+                <div class="card shadow mb-4">
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-pie pt-4">
+                            <canvas id="myChartPie"></canvas>
+                        </div>
+                        <hr>
+                    </div>
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">{% translate "График сожержания БЖУ" %}</h6>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card-title bg-custom border p-1">
+                    <h3>{% translate "Содержание основных компонентов" %}</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tblToExcl1">
+                        <tr>
+                            <th>{% translate "Содержание белка %" %}</th>
+                            <th>{% translate "Содержание жира %" %}</th>
+                            <th>{% translate "Содержание углеводов %" %}</th>
+                        </tr>
+                        <tr>
+                            <td>{{ chemicals.protein }}</td>
+                            <td>{{ chemicals.fatacid }}</td>
+                            <td>{{chemicals.carbohydrates}}</td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card-title bg-custom border p-1">
+                    <h3>{% translate "Себестоимость" %}</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tblToExcl2">
+                        <tr>
+                            <th>{% translate "Себестоимость за 100 г." %}</th>
+                            <th>{% translate "Себестоимость за 1кг." %}</th>
+                        </tr>
+                        <tr>
+                            <td>{{ chemicals.price_100 }}</td>
+                            <td>{{ chemicals.price_1kg }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-title bg-custom border p-1 text-center">
+                    <h3>{% translate "Содержание НАК и их скор" %}</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tblToExcl3">
+                        <tr>
+                            <th></th>
+                            <th>{% translate "Изолейц" %}</th>
+                            <th>{% translate "Лейц" %}</th>
+                            <th>{% translate "Валин" %}</th>
+                            <th>{% translate "Мет+Цист" %}</th>
+                            <th>{% translate "Фен+Тир" %}</th>
+                            <th>{% translate "Триптофан" %}</th>
+                            <th>{% translate "Треон" %}</th>
+                            <th>{% translate "Лизин" %}</th>
+                        </tr>
+                        <tr>
+                            <th style="background-color: #99ccff;">М, %</th>
+                            <td>{{chemicals.isolecin}}</td>
+                            <td>{{chemicals.leitsin}}</td>
+                            <td>{{chemicals.valin}}</td>
+                            <td>{{chemicals.met_tsist2}}</td>
+                            <td>{{chemicals.fenilalalin_tirosin2}}</td>
+                            <td>{{chemicals.triptofan}}</td>
+                            <td>{{chemicals.lisin}}</td>
+                            <td>{{chemicals.treonin}}</td>
+                        </tr>
+
+                        <tr>
+                            <th style="background-color: #cc99ff;">C, %</th>
+                            <td>{{chemicals.isolecin2}}</td>
+                            <td>{{chemicals.leitsin2}}</td>
+                            <td>{{chemicals.valin2}}</td>
+                            <td>{{chemicals.met_tsist3}}</td>
+                            <td>{{chemicals.fenilalalin_tirosin3}}</td>
+                            <td>{{chemicals.triptofan2}}</td>
+                            <td>{{chemicals.lisin2}}</td>
+                            <td>{{chemicals.treonin2}}</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color: #ffff99;">a, %</th>
+                            <td>{{chemicals.isolecin_a}}</td>
+                            <td>{{chemicals.leitsin_a}}</td>
+                            <td>{{chemicals.valin_a}}</td>
+                            <td>{{chemicals.met_tsist_a}}</td>
+                            <td>{{chemicals.fenilalalin_tirosin_a}}</td>
+                            <td>{{chemicals.triptofan_a}}</td>
+                            <td>{{chemicals.lisin_a}}</td>
+                            <td>{{chemicals.treonin_a}}</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color: #ff99cc;">Cmin</th>
+                            <td class="font-weight-bold">{{chemicals.Cmin}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card-title bg-custom border p-1">
+                    <h3>{% translate "Энергетическая ценность" %}</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tblToExcl4">
+                        <tbody>
+                            <tr>
+                                <th rowspan="3">{% translate "ЭЦ, ккал, кДж" %}</th>
+                            </tr>
+                            <tr>
+                                <td>{{chemicals.power_kkal}}</td>
+                                <td>{{chemicals.power_kDj}}</td>
+                            </tr>
+                            <tr>
+                                <th>{% translate "ккал" %}</th>
+                                <th>{% translate "кДж" %}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-title bg-custom border p-1 text-center">
+                    <h3>{% translate "Качественные показатeли белкового компонента" %}</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tblToExcl5">
+                        <thead>
+                            <tr>
+                                <th>{% translate "КРАС" %}</th>
+                                <th>{% translate "БЦ" %}</th>
+                                <th>{% translate "U" %}</th>
+                                <th>{% translate "G" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{chemicals.kras}}</td>
+                                <td>{{chemicals.bc}}</td>
+                                <td>{{chemicals.U}}</td>
+                                <td>{{chemicals.G}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-btns mt-5">
+
+            <div class="export">
+                <hr>
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <a id="btn-to-xlsx" download="result.xlsx" href="#"
+                            class="btn btn-add w-100" onclick="return action('xlsx')">{% translate "Экспортировать в EXCEL" %}</a>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-add w-100" id="btn-to-pdf" onclick="window.print()">{% translate "Экспортировать в PDF" %}</button>
+                    </div>
+                    <div class="col-12 pt-3">
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <button class="btn btn-calculate font-weight-bold w-100" id="btn-to-pdf" onclick="location.reload()">{% translate "Очистить результаты" %}</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+{% block custom_js%}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'client/js/excellentexport.js' %}"></script>
+
+<script>
+	$(document).ready(function () {
+		//Code for Pie Chart
+		var pieData = {
+			labels: [
+				'Жиры',
+				'Белки',
+				'Углеводы'
+			],
+			datasets: [
+				{
+					data: [ {{ chemicals.protein }}, {{ chemicals.fatacid }}, {{ chemicals.carbohydrates }} ],
+					backgroundColor: ['rgb(237, 33, 77)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+				 }
+			 ]
+			 }
+			//Code for Pie Chart
+			var pieChart = $('#myChartPie').get(0).getContext('2d')
+			var pieData = pieData;
+			var pieOptions = {
+				maintainAspectRatio: false,
+				responsive: true,
+			}
+	//Create pie or douhnut chart
+	// You can switch between pie and douhnut using the method below.
+	var pieChart = new Chart(pieChart, {
+		type: 'doughnut',
+		data: pieData,
+		options: pieOptions
+	})
+
+	//Code for Bar Chart
+	var BarData = {
+		labels: [
+			'КРАС',
+			'БЦ',
+			'U',
+			'G',
+		],
+		datasets: [
+			{
+				data: [{{chemicals.kras}},{{chemicals.bc}},{{chemicals.U}},{{chemicals.U}}],
+				backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)', 'rgb(201, 203, 207)',],
+			}
+		]
+	}
+	//Code for Pie Chart
+	var BarChart = $('#myChartBar').get(0).getContext('2d')
+	var BarData = BarData;
+	var BarOptions = {
+		maintainAspectRatio: false,
+		responsive: true,
+	}
+	//Create pie or douhnut chart
+	// You can switch between pie and douhnut using the method below.
+	var BarChart = new Chart(BarChart, {
+		type: 'bar',
+		data: BarData,
+		options: BarOptions
+	})
+ 
+			 
+		})
+
+	</script>
+
+<script>
+
+function action(format) {
+		return ExcellentExport.convert({
+			anchor: 'btn-to-' + format,
+			filename: 'result',
+			format: format
+		}, [{
+			name: 'Содержание осн. компонентов',
+			from: {
+				table: 'tblToExcl1'
+			}
+		},
+		{
+			name: 'Себестоимость', 
+			from: 
+			{
+				table: 'tblToExcl2'
+			}
+		},
+		{
+			name: 'Содержание НАК и их скор.',
+			from:
+			{
+				table: 'tblToExcl3'
+			}
+		},
+		{
+			name: 'Энергетическая ценность',
+			from: {
+				table: 'tblToExcl4'
+			}
+		},
+		{
+			name: 'Кач-ные п-и бел. компонента',
+			from: {
+				table: 'tblToExcl5'
+			}
+		},
+
+		]);
+	}
+
+</script>
+
+{% endblock custom_js%}
+
+
+

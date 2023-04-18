@@ -17,12 +17,8 @@ urlpatterns = [
     path('admin-panel/main/', views.AdminMain.as_view(), name='admin_panel'),
     path('admin-panel/testmethod/', views.test, name='test'),
 
-    # Reset password
-    path("accounts/password_reset/", views.password_reset_request, name="password_reset"),
-    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name="admin/pages/user/password_reset_done.html"), name='password_reset_done'),
-    path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="admin/pages/user/password_reset_confirm.html"), name='password_reset_confirm'),
-    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name="admin/pages/user/password_reset_complete.html"), name='password_reset_complete'),
-
+    path('admin-panel/testmethod/', views.test, name='password_reset'),
+    
     # Ingredients View
     path('admin-panel/ingredients/all/', views.IngredientsListView.as_view(), name='ingredients_all'),
     path('admin-panel/ingredients/create/', views.IngredientsCreateView.as_view(), name='ingredients_create'),
@@ -107,9 +103,11 @@ urlpatterns = [
     path('about', views.about, name='about-us'),
     path('contact', views.contact, name='contact'),
     path('cart', views.cart, name='cart'),
-    path('meels', views.meels, name='meels'),
-    path('milks', views.milks, name='milks'),
-    path('bakery', views.bakery, name='bakery'),
+    path('meels/', views.meels, name='meels'),
     path('list', views.list, name='list-of-products'),
-    path('details/<int:id>', views.product_details, name='details')
+    path('details/<int:id>', views.product_details, name='details'),
+
+    #Ajax-regions choice
+    path('load-regions/', views.load_courses, name='ajax_load_region'),
+    path('load-calculations/', views.load_calculation, name='ajax_load_calculation'),
 ]

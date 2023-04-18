@@ -1,0 +1,4 @@
+<option value="">Выберите ингредиент</option>
+{% for value in ingredients %}
+<option value="{{ value.id }}">{{ value.name }}</option>
+{% endfor %}

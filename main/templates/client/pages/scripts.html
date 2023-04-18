@@ -21,6 +21,7 @@
 <script src="{% static 'client/js/main.js'%}"></script>
 <!-- datables-->
 <script src="{% static 'client/DataTables/datatables.min.js' %}"></script>
+
 <script>$(document).ready(function () { $('#example').DataTable(); });</script>
 <script>
     var table = new DataTable('#example', {
@@ -29,3 +30,60 @@
     },
 });
 </script>
+
+<script>
+    function changeWeek(caller) {
+        var choiceregion = caller.id; // Get Select ID
+        var e = document.getElementById(choiceregion).value; // Get Data by ID Select
+        var lastIelement = choiceregion.charAt(choiceregion.length - 1); // Get Last Symbol for Ingredient )))
+
+       $.ajax({                       // initialize an AJAX request
+         url: '{% url "ajax_load_region" %}',// set the url of the request (= localhost:8000/load-courses/)
+         data: {
+            'regionId': e        // add the programming id to the GET parameters
+         },
+        success: function (data) {   // data is the return of the load_courses view function
+         $("#ing_"+lastIelement).html(data);  // replace the contents of the course input with the data that came from the server
+        }
+       });
+    }
+
+    function ClickSolution(){
+        var massFraction= [];
+        var price=[];
+        var region = [];
+        var ingredient = [];
+
+        var productName = document.getElementById("product").value;
+        var massFractions = document.getElementsByName("massfraction");
+        var prices = document.getElementsByName("price");
+        var regions = document.getElementsByName("region");
+        var ingredients = document.getElementsByName("ingredients");
+        var counter = document.getElementById("counter").value;
+
+        for(let i = 0; i < regions.length; i++){
+            massFraction.push(massFractions[i].value);
+            price.push(prices[i].value);
+            region.push(regions[i].options[regions[i].selectedIndex].text);
+            ingredient.push(ingredients[i].value);
+        }
+
+        datas = {
+            Regions: JSON.stringify(region),
+            MassFractions: JSON.stringify(massFraction),
+            Prices: JSON.stringify(price),
+            Ingredients: JSON.stringify(ingredient),
+            counters: counter,
+        }
+
+        $.ajax({      
+            url: '{% url "ajax_load_calculation" %}',// set the url of the request (= localhost:8000/load-courses/)
+            data: datas,
+            success: function (data) {   // data is the return of the load_courses view function
+            $("#outputcalculate").html(data);  // replace the contents of the course input with the data that came from the server
+            }
+        });
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

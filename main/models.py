@@ -26,24 +26,22 @@ class RegionChoice(models.TextChoices):
 class Categories(models.Model):
     Name_of_category = models.CharField(verbose_name='Наименование категории', max_length=75,help_text='(Мясные, Молочные, Хлебобулочные и т.д.)')
     Region = models.CharField(
-        max_length = 50,
-        choices = RegionChoice.choices,
-        default = RegionChoice.REGION_1,
-        verbose_name = "Регион"
-    )
+            max_length = 50,
+            choices = RegionChoice.choices,
+            default = RegionChoice.REGION_1,
+            verbose_name = "Регион"
+        )
     class Meta:
         verbose_name = "Категория"
         
         
     def __str__(self):
-        return  f"{self.Name_of_category}-{self.Region}"
+        return  f"{self.Name_of_category} - {self.Region}"
     
 # Тип продуктов (Говядина, Баранина и т.д.)
 class Types(models.Model):
     Name_of_type = models.CharField(verbose_name='Наименование типа', max_length=75, help_text='(Мясные, Молочные, Хлебобулочные и т.д.)', null=True)
     Category = models.ForeignKey(Categories, on_delete=models.RESTRICT, null=True)
-
-    
     class Meta:
         verbose_name = "Тип продуктов"
     def __str__(self) -> str:
@@ -70,23 +68,33 @@ class Products(models.Model):
 class Ingredients(models.Model):
     name = models.CharField(verbose_name='Наименование ингредиента', max_length=40)
     category = models.ForeignKey(Categories, on_delete=models.RESTRICT, verbose_name='Категория', blank=True, null=True)
-    
+
     class Meta:
         verbose_name = ' -- (Наименование ингредиента) -- '
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name} - {self.category.Region}"
     
 # Аминокислотный состав
 class AminoAcidCompOfIng(models.Model):
     ingredient = models.ForeignKey(Ingredients, on_delete=models.RESTRICT, null=True)
-    isolate = models.FloatField(verbose_name='Изолейц', default=0)
-    leitz = models.FloatField(verbose_name='Лейцин', default=0)
+    asparing = models.FloatField(verbose_name='Аспарагиновая кислота', default=0)
+    glutamin = models.FloatField(verbose_name='Глутаминовая кислота', default=0)
+    serin = models.FloatField(verbose_name='Серин', default=0)
+    gistidin = models.FloatField(verbose_name='Гистидин', default=0)
+    glitsin = models.FloatField(verbose_name='Глицин', default=0)
+    treonin = models.FloatField(verbose_name='Треонин', default=0)
+    arginin = models.FloatField(verbose_name='Аргинин', default=0)
+    alanin = models.FloatField(verbose_name='Аланин', default=0)
+    tirosin = models.FloatField(verbose_name='Тирозин', default=0)
+    tsistein = models.FloatField(verbose_name='Цистеин', default=0)
     valin = models.FloatField(verbose_name='Валин', default=0)
-    methylcysteine = models.FloatField(verbose_name='Метилцистеин', default=0)
-    fentir = models.FloatField(verbose_name='Фен+Тир', default=0)
-    triptophan = models.FloatField(verbose_name='Триптофан', default=0)
+    metionin = models.FloatField(verbose_name='Метионин', default=0)
+    triptofan = models.FloatField(verbose_name='Триптофан', default=0)
+    fenilalalin = models.FloatField(verbose_name='Фенилаланин', default=0)
+    izoleitsin = models.FloatField(verbose_name='Изолейцин', default=0)
+    leitsin = models.FloatField(verbose_name='Лейцин', default=0)
     lisin = models.FloatField(verbose_name='Лизин', default=0)
-    treon = models.FloatField(verbose_name='Треон', default=0)
+    prolin = models.FloatField(verbose_name='Пролин', default=0)
 
     class Meta:
         verbose_name = ' -- (Аминокислотный Состав Ингредиента) -- '
@@ -99,11 +107,10 @@ class FatAcidsIngredients(models.Model):
     type_of_acid = models.CharField(
         max_length=75,
         choices = FatAcidsTypeChoice.choices,
-                  default = FatAcidsTypeChoice.TYPE_1,
-                  verbose_name = "Тип ж-кислоты"
-                  )
-    value = models.FloatField(verbose_name='Содержание') 
-    
+                default = FatAcidsTypeChoice.TYPE_1,
+                verbose_name = "Тип ж-кислоты"
+                )
+    value = models.FloatField(verbose_name='Содержание')
     class Meta:
         verbose_name = ' -- (Виды Жирнокислоты) -- '
     def __str__(self) -> str:
@@ -118,6 +125,7 @@ class ChemicalsIngredients(models.Model):
     moisture = models.FloatField(verbose_name='Массовая доля влаги, %', default=0)
     protein = models.FloatField(verbose_name='Массовая доля белка, %', default=0)
     fat = models.FloatField(verbose_name='Массовая доля жира, %', default=0)
+    carbohydrates = models.FloatField(verbose_name='Массовая доля углеводов, %', default=0)
 
     class Meta:
         verbose_name = ' -- (Химический состав) -- '
@@ -145,7 +153,7 @@ class MineralsIngredients(models.Model):
     Co = models.FloatField(verbose_name='Co (Ковальт)', default=0)
     Cr = models.FloatField(verbose_name='Cr (Хром)', default=0)
     Sn = models.FloatField(verbose_name='Sn (Олово)', default=0)
-    
+
     class Meta:
         verbose_name = ' -- (Минеральный состав) -- '
     
@@ -159,11 +167,11 @@ class FatAcids(models.Model):
     type_of_acid = models.CharField(
         max_length=75,
         choices = FatAcidsTypeChoice.choices,
-                  default = FatAcidsTypeChoice.TYPE_1,
-                  verbose_name = "Тип ж-кислоты"
-                  )
-    value = models.FloatField(verbose_name='Содержание') 
-    
+                default = FatAcidsTypeChoice.TYPE_1,
+                verbose_name = "Тип ж-кислоты"
+                )
+    value = models.FloatField(verbose_name='Содержание')
+
     class Meta:
         verbose_name = ' -- (Виды Жирнокислоты) -- '
 
@@ -192,7 +200,7 @@ class MineralComposition(models.Model):
     Co = models.FloatField(verbose_name='Co (Ковальт)', default=0)
     Cr = models.FloatField(verbose_name='Cr (Хром)', default=0)
     Sn = models.FloatField(verbose_name='Sn (Олово)', default=0)
-    
+
     class Meta:
         verbose_name = ' -- (Минеральный состав) -- '
     
@@ -238,6 +246,9 @@ class Chemicals(models.Model):
 
     class Meta:
         verbose_name = ' -- (Химический состав) -- '
+
+    def Prot_Sum(protein, sum) -> None:
+        Chemicals.protein = protein / sum
 
 
 

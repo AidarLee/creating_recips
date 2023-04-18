@@ -1,3 +1,4 @@
+import json
 import os
 import smtplib
 from django.shortcuts import render, redirect
@@ -74,41 +75,6 @@ def authorization(request):
             else:
                 messages.error(request, "Неверный логин или пароль!")
                 return redirect('login_page')
-   
-def password_reset_request(request):
-    settings.EMAIL_HOST_USER='kyrgyzindustry.portal.01@gmail.com'
-    settings.EMAIL_HOST_PASSWORD='jenpktauntyqbeum'
-    if request.method == "POST":
-        
-        password_reset_form = UserPasswordResetForm(request.POST)
-        if password_reset_form.is_valid():
-            data = password_reset_form.cleaned_data['email']
-            associated_users = User.objects.filter(Q(email=data))
-            if associated_users.exists():
-                for user in associated_users:
-                    subject = "Запрос на сброс данных"
-                    email_template_name = "admin/pages/user/forgot-password-email.html"
-                    c = {
-                        "email":user.email,
-                        'domain':'http://127.0.0.1:8000',
-                        'site_name': 'Website',
-                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                        "user": user,
-                        'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
-                        }
-                    email = render_to_string(email_template_name, c)
-                    
-                    try:
-                        send_mail(subject, email, 'zenisbekovk04@gmail.com' , [user.email], fail_silently=False)
-                    except BadHeaderError:
-                        
-                        return HttpResponse('Invalid header found.')
-                    
-                    return redirect ("/accounts/password_reset/done/")
-    password_reset_form = UserPasswordResetForm()
-    return render(request=request, template_name="admin/pages/user/forgot-password-email.html", context={"password_reset_form":password_reset_form})
-
 
 
 def logout_page(request):
@@ -201,265 +167,335 @@ def cart(request):
     return render(request, 'client/pages/cart.html')
 
 
-def value_sum(value, sum) -> None:
-        return value / sum
- 
-
-class aminoAc():
-    
-    def __init__(self, asparing, glutamin, serin, gistidin, glitsin, treonin, arginin, alanin, tirosin, tsistein, valin, metionin, triptofan, fenilalalin, izoleitsin, leitsin, lisin, prolin):
-        self.asparing = asparing
-        self.glutamin = glutamin
-        self.serin = serin
-        self.gistidin = gistidin
-        self.glitsin = glitsin
-        self.treonin = treonin
-        self.arginin = arginin
-        self.alanin = alanin
-        self.tirosin = tirosin
-        self.tsistein = tsistein
-        self.valin = valin
-        self.metionin = metionin
-        self.triptofan = triptofan
-        self.fenilalalin = fenilalalin
-        self.izoleitsin = izoleitsin
-        self.leitsin = leitsin
-        self.lisin = lisin
-        self.prolin = prolin
-
-
-class ChemlProd():
-    
-    def __init__(self, product, soluable_solids, ascorbic_acids, ash_content, moisture, protein, fat):
-        self.product = product
-        self.soluable_solids = soluable_solids
-        self.ascorbic_acids = ascorbic_acids
-        self.ash_content = ash_content
-        self.moisture = moisture
-        self.protein = protein
-        self.fat = fat
-
-    
-
-
-#Meels Recips
+#Designing Recips
 def meels(request):
     ingredient = Ingredients.objects.all()
-
-    MyClass = ChemlProd
-
-    chemics = ChemlProd.__dict__
-    amoinacids = aminoAc.__dict__
-
-    types = Types.objects.all()
-    cat = Categories.objects.values('Name_of_category').annotate(total=Count('Name_of_category'))
-
-    protein = 0
-    check = None
+    check = False
     region_choices = RegionChoice.choices
-    # print(type(region_choices))
     hide_ingredients = None
-    size = 0
-    size = request.POST.get("counter")
-    product = request.POST.get("product-name")
-
-    prod_reg = request.GET.get("region_prod")
-   
-    arr = 0
-    sum = 0
-    ss = 0
-
-    soluables_value = 0
-    ascorbics_value = 0
-    ash_contents_value = 0
-    moisture_value = 0
-    Proteins_value = 0
-    summ_price = 0
-    price_100 = 0
-    price_1kg = 0
-    fatacids_value = 0
-
-    if request.method == "POST":
-        if size is not None and size != 0:
-            for i in range(0, int(size)+1):
-                reg = request.POST.get(f'region_{i}')
-                ing = request.POST.get(f'ing_{i}')
-                mass_fraction = request.POST.get(f'massfraction_{i}')
-                price = request.POST.get(f'price_{i}')
-
-                try:
-                    chemical_comp = ChemicalsIngredients.objects.get(ingredient=ing)
-                    soluables_value += chemical_comp.soluable_solids
-                    ascorbics_value += chemical_comp.ascorbic_acids
-                    ash_contents_value += chemical_comp.ash_content
-                    moisture_value += chemical_comp.moisture
-                    summ_price = summ_price + float(price)
-                    Proteins_value += float(mass_fraction) * chemical_comp.protein
-                    fatacids_value += float(mass_fraction) * chemical_comp.fat
-
-                    summ_price = float(price) * float(mass_fraction) / 1000         
-
-                    price_100 += float(summ_price) * (100 / float(mass_fraction))
-                    price_100 = round(price_100, 3)
-                    price_1kg += float(summ_price) * (1000 / float(mass_fraction))
-                    price_1kg = round(price_1kg, 3)
-
-                    MyClass.product = product
-                    
-                    ss += float(mass_fraction)
-
-                    Proteins_value = value_sum(Proteins_value, ss)
-                    fatacids_value = value_sum(fatacids_value, ss)
-                    Proteins_value = float("{:.2f}".format(3.8956))
-                    fatacids_value = float("{:.2f}".format(3.6785))
-
-                    MyClass.soluable_solids = soluables_value
-                    MyClass.ascorbic_acids = ascorbics_value
-                    MyClass.ash_content = ash_contents_value
-                    MyClass.ash_content = soluables_value
-                    MyClass.moisture = moisture_value
-                    MyClass.protein = Proteins_value
-                    MyClass.fat = fatacids_value
-                    
-
-                except Chemicals.DoesNotExist:
-                    check = True
-
-                context= {
-                    'price_100' : price_100,
-                    'price_1kg' : price_1kg,
-                    'ingredient': ingredient,
-                    'Protein_value': Proteins_value,
-                    "MyClass": chemics,
-                    "regions" : region_choices,
-                    "hide_ingredients" : hide_ingredients,
-                }
-
-            return render(request, 'client/pages/meels.html', context)
-        elif size == 0:
-            reg = request.POST.get(f'region_0', None)
-
-    
-    not_exist = False
-   
-    try:
-        chemical_comp = Chemicals.objects.all()
-        # protein = (float(mass_fraction) * float(Chemicals.model.protein)) / float(mass_fraction)
-        
-    except Chemicals.DoesNotExist:
-        check = True
-    # if chemical_comp is None:
-    #     check = True
-    # else:
 
     context= {
         'ingredient': ingredient,
         "hide_result" : check,
-        "categories": cat,
-        "types": types,
-        "amoinacids": amoinacids,
-        "MyClass": chemics,
         "regions" : region_choices,
         "hide_ingredients" : hide_ingredients,
     }
 
     return render(request, 'client/pages/meels.html', context)
 
+class Result:
 
-# Milks Recips
-def milks(request):
-    products = Products.objects.order_by('id')
-    protein = 0
-    check = None
-    regions = Categories.objects.all()
-    hide_ingredients = None
+    def __init__(self, 
+                 protein, fatacid, carbohydrates, price_100, price_1kg, isolecin, leitsin, valin,
+                met_tsist2, fenilalalin_tirosin2, triptofan, lisin, treonin, isolecin2, leitsin2, 
+                valin2, met_tsist3, fenilalalin_tirosin3, triptofan2, lisin2, treonin2, isolecin_a,
+                leitsin_a, valin_a, met_tsist_a, fenilalalin_tirosin_a, triptofan_a, lisin_a, treonin_a,
+                Cmin, power_kkal, power_kDj, kras, bc, U, G
+                 ):
+        self.protein = protein
+        self.fatacid = fatacid
+        self.carbohydrates = carbohydrates
+        self.price_100 = price_100
+        self.price_1kg = price_1kg
+        self.isolecin = isolecin
+        self.leitsin = leitsin
+        self.valin = valin
+        self.met_tsist2 = met_tsist2
+        self. fenilalalin_tirosin2 = fenilalalin_tirosin2
+        self.triptofan = triptofan
+        self.lisin = lisin
+        self.treonin = treonin
+        self.isolecin2 = isolecin2
+        self.leitsin2 = leitsin2
+        self.valin2 = valin2
+        self.met_tsist3 = met_tsist3
+        self.fenilalalin_tirosin3 = fenilalalin_tirosin3
+        self.triptofan2 = triptofan2
+        self.lisin2 = lisin2
+        self.treonin2 = treonin2
+        self.isolecin_a = isolecin_a
+        self.leitsin_a = leitsin_a
+        self.valin_a = valin_a
+        self.met_tsist_a = met_tsist_a
+        self.fenilalalin_tirosin_a = fenilalalin_tirosin_a
+        self.triptofan_a = triptofan_a
+        self.lisin_a = lisin_a
+        self.treonin_a = treonin_a
+        self.Cmin = Cmin
+        self.power_kkal = power_kkal
+        self.power_kDj = power_kDj
+        self.kras = kras
+        self.bc = bc
+        self.U = U
+        self.G = G
 
-    region = request.GET.get('region')
-    milk = request.GET.get('milk')
-    mass_fraction = request.GET.get('massfraction')
-    price = request.GET.get('price')
 
-    not_exist = False
+
+#Ajax Region
+def load_courses(request):
+    reg = request.GET.get('regionId')
+    ingredient = Ingredients.objects.filter(category__Region = reg)
+    return render(request, 'client/pages/dropdown_list_options.html', {'ingredients': ingredient})
+
+#Ajax calculations
+def load_calculation(request):
     
-    try:
-        chemical_comp = Chemicals.objects.get(product=milk)
-        protein = (float(mass_fraction) * chemical_comp.protein) / float(mass_fraction)
-        print(mass_fraction)
-        
-    except Chemicals.DoesNotExist:
-        check = True
+    res = Result
+    result = Result.__dict__
 
-    try:
-        chemical_comp = Chemicals.objects.all()
-        # protein = (float(mass_fraction) * float(Chemicals.model.protein)) / float(mass_fraction)
-        
-    except Chemicals.DoesNotExist:
-        check = True
-    # if chemical_comp is None:
-    #     check = True
-    # else:
+    mass_fractions = 0
+    
+    protein = 0.0
+    prot = 0
+    chemicals_prot = None
+    
+    chemicals_fat = None
+    fatacid = 0
+    fat = 0
 
-    context= {
-        'products': products,
-        "protein" : protein,
-        "hide_result" : check,
-        "not_exist" : not_exist,
-        "regions" : region,
-        "hide_ingredients" : hide_ingredients,
+    chemicals_carbo = None
+    carbohydrates = 0
+    carbo = 0
+
+    # price.i 
+    price_i = 0
+    
+    #price_1kg * mass_fraction / 1000
+    pr = 0
+
+    #price sum
+    prplus = 0
+    price_100 = 0
+    price_1kg = 0
+
+    #isoleicin
+    amino_isoleicin = 0
+    isol = 0
+    isolecin = 0
+
+    #leitsin
+    amino_leitsin = 0
+    leit = 0
+    leitsin = 0
+
+    #valin
+    amino_valin = 0
+    val = 0
+    valin = 0
+
+    #metionin
+    amino_met = 0
+    met = 0
+    met_tsist1 = 0
+
+    #tsistein
+    amino_tsistein = 0
+    tsist = 0
+    met_tsist2 = 0
+
+    #fenilalalin
+    amino_fenilalalin = 0
+    fenil = 0
+    fenilalalin_tirosin1 = 0
+
+    #tirosin
+    amino_tirosin = 0
+    tir = 0
+    fenilalalin_tirosin2 = 0
+
+    #triptofan
+    amino_triptofan = 0
+    tripto = 0
+    triptofan = 0
+
+    #lisin
+    amino_lisin = 0
+    lis = 0
+    lisin = 0
+
+    #treonin
+    amino_treonin = 0
+    treon = 0
+    treonin = 0
+
+    error_message = ""
+    
+    reg = json.loads(request.GET.get(('Regions')))
+    ingredient = json.loads(request.GET.get('Ingredients'))
+    mass_fraction = json.loads(request.GET.get('MassFractions'))
+    price = json.loads(request.GET.get('Prices'))
+    size = request.GET.get('counters')
+
+    for i in range(0, int(size)+1):
+        try:
+            ing = ingredient[i]
+            ingred = Ingredients.objects.get(id=ing)
+            
+            chemical_comp = ChemicalsIngredients.objects.get(ingredient=ing)
+            aminocaid_comp = AminoAcidCompOfIng.objects.get(ingredient=ing)
+
+            #protein
+            chemicals_prot = chemical_comp.protein
+            mass = float(mass_fraction[i])
+            mass_fractions += mass
+            prot += (float(mass) * chemicals_prot)
+
+            #price
+            price_i = price[i]
+            pr = (float(price_i) * mass) / 1000
+            prplus += pr
+
+            #fatacid
+            chemicals_fat = chemical_comp.fat
+            fat +=(float(mass)) * chemicals_fat
+
+            #carbohydrates
+            chemicals_carbo = chemical_comp.carbohydrates
+            carbo +=(float(mass)*chemicals_carbo)
+
+            #isoleicin
+            amino_isoleicin = aminocaid_comp.izoleitsin
+            isol += amino_isoleicin
+
+            #leitsin
+            amino_leitsin = aminocaid_comp.leitsin
+            leit += amino_leitsin
+
+            #valin
+            amino_valin = aminocaid_comp.valin
+            val += amino_valin
+
+            #amino_met
+            amino_met = aminocaid_comp.metionin
+            met += amino_met
+
+            #tsistein
+            amino_tsistein = aminocaid_comp.tsistein
+            tsist += amino_tsistein
+
+            #amino_fenilalalin
+            amino_fenilalalin = aminocaid_comp.fenilalalin
+            fenil += amino_fenilalalin
+
+            #amino_tirosin
+            amino_tirosin = aminocaid_comp.tirosin
+            tir += amino_tirosin
+
+            #amino_triptofan
+            amino_triptofan = aminocaid_comp.triptofan
+            tripto = amino_triptofan
+
+            #amino_lisin
+            amino_lisin = aminocaid_comp.lisin
+            lis = amino_lisin
+
+            #amino_treonin
+            amino_treonin = aminocaid_comp.treonin
+            treon = amino_treonin
+
+        except ChemicalsIngredients.DoesNotExist:
+            error_message = "Не удалось найти ингредиент с таким названием!"
+    
+    protein = prot / mass_fractions
+    fatacid = fat / mass_fractions
+    carbohydrates = carbo / mass_fractions
+    price_100 = (prplus * 100) / mass_fractions
+    price_1kg = price_100 * 10
+    isolecin = (isol * prot * mass_fractions) / (prot * mass_fractions)
+    isolecin2 = isolecin / 4 * 100
+    leitsin = (leit * prot * mass_fractions) / (prot * mass_fractions)
+    leitsin2 = leitsin / 7 * 100
+    valin = (val * prot * mass_fractions) / (prot * mass_fractions)
+    valin2 = valin / 5 * 100
+
+    met_tsist1 = met + tsist
+    fenilalalin_tirosin1 = fenil + tir
+
+    met_tsist2 = (met_tsist1 * prot * mass_fractions) / (prot * mass_fractions)
+    met_tsist3 = met_tsist2 / 3.5 * 100
+    fenilalalin_tirosin2 = (fenilalalin_tirosin1 * prot * mass_fractions) / (prot * mass_fractions)
+    fenilalalin_tirosin3 = fenilalalin_tirosin2 / 6 * 100
+
+    triptofan = (tripto * prot * mass_fractions) / (prot * mass_fractions)
+    triptofan2 = triptofan / 1 * 100
+    lisin = (lis * prot * mass_fractions) / (prot * mass_fractions)
+    lisin2 = lisin / 4 * 100
+    treonin = (treon * prot * mass_fractions) / (prot * mass_fractions)
+    treonin2 = treonin / 5.5 * 100
+    Cmin = min(isolecin2, leitsin2, valin2, met_tsist3, fenilalalin_tirosin3, triptofan2, lisin2, treonin2)
+
+    isolecin_a = Cmin/isolecin2
+    leitsin_a = Cmin/leitsin2
+    valin_a = Cmin/valin2
+    met_tsist_a = Cmin/met_tsist3
+    fenilalalin_tirosin_a = Cmin/fenilalalin_tirosin3
+    triptofan_a = Cmin/triptofan2
+    lisin_a = Cmin/lisin2
+    treonin_a = Cmin/treonin2
+
+    power_kkal = protein * 4 + fatacid * 9 + carbohydrates * 4
+    power_kDj = protein * 17 + fatacid * 37 + carbohydrates * 4
+
+    kras = (isolecin2 - Cmin + leitsin2 - Cmin + valin2 - Cmin + met_tsist3 - Cmin + fenilalalin_tirosin3 - Cmin + triptofan2 - Cmin + lisin2 - Cmin + treonin2 - Cmin) / 8
+    bc = 100 - kras
+    U = isolecin * isolecin_a + leitsin * leitsin_a + valin * valin_a + met_tsist2 * met_tsist_a + fenilalalin_tirosin2 * fenilalalin_tirosin_a + triptofan * triptofan_a + treonin * treonin_a + lisin * lisin_a
+    G = isolecin * (1 - isolecin_a) + leitsin * (1 - leitsin_a) + valin * (1 - valin_a) + met_tsist2 * (1 - met_tsist_a) + fenilalalin_tirosin2 * (1 - fenilalalin_tirosin_a) + triptofan * (1 - triptofan_a) + treonin * (1 - treonin_a) + lisin * (1 - lisin_a)
+
+    res.protein = round(protein, 3)
+    res.fatacid = round(fatacid, 3)
+    res.carbohydrates = round(carbohydrates, 3)
+    res.price_100 = round(price_100, 3)
+    res.price_1kg = round(price_1kg, 3)
+    res.isolecin = round(isolecin, 3)
+    res.isolecin2 = round(isolecin2, 3)
+    res.leitsin = round(leitsin, 3)
+    res.leitsin2 = round(leitsin2, 3)
+    res.valin = round(valin, 3)
+    res.valin2 = round(valin2, 3)
+    res.met_tsist2 = round(met_tsist2, 3)
+    res.met_tsist3 = round(met_tsist3, 3)
+    res.fenilalalin_tirosin2 = round(fenilalalin_tirosin2, 3)
+    res.fenilalalin_tirosin3 = round(fenilalalin_tirosin3, 3)
+    res.triptofan = round(triptofan, 3)
+    res.triptofan2 = round(triptofan2, 3)
+    res.lisin = round(lisin, 3)
+    res.lisin2 = round(lisin2, 3)
+    res.treonin = round(treonin, 3)
+    res.treonin2 = round(treonin2, 3)
+    res.Cmin = round(Cmin, 3)
+    res.isolecin_a = round(isolecin_a, 3)
+    res.leitsin_a = round(leitsin_a, 3)
+    res.valin_a = round(valin_a, 3)
+    res.met_tsist_a = round(met_tsist_a, 3)
+    res.fenilalalin_tirosin_a = round(fenilalalin_tirosin_a, 3)
+    res.triptofan_a = round(triptofan_a, 3)
+    res.lisin_a = round(lisin_a, 3)
+    res.treonin_a = round(treonin_a, 3)
+    res.power_kkal = round(power_kkal, 3)
+    res.power_kDj = round(power_kDj, 3)
+    res.kras = round(kras, 3)
+    res.bc = round(bc, 3)
+    res.U = round(U, 3)
+    res.G = round(G, 3)
+
+    context = {
+        'ingredients': ingredient,
+        'region' : reg,
+        'error_message' : error_message,
+        'chemicals' : result,
     }
 
-    return render(request, 'client/pages/milks.html', context)
+    return render(request, 'client/pages/load-calculation.html', context)
 
-# Bakery Recips
-def bakery(request):
-    products = Products.objects.order_by('id')
-    protein = 0
-    check = None
-    regions = Categories.objects.all()
-    hide_ingredients = None
-
-    region = request.GET.get('region')
-    baker = request.GET.get('bakery')
-    mass_fraction = request.GET.get('massfraction')
-    price = request.GET.get('price')
-
-    not_exist = False
-    
-    try:
-        chemical_comp = Chemicals.objects.get(product=baker)
-        protein = (float(mass_fraction) * chemical_comp.protein) / float(mass_fraction)
-        print(mass_fraction)
-        
-    except Chemicals.DoesNotExist:
-        check = True
-
-    try:
-        chemical_comp = Chemicals.objects.all()
-        # protein = (float(mass_fraction) * float(Chemicals.model.protein)) / float(mass_fraction)
-        
-    except Chemicals.DoesNotExist:
-        check = True
-    # if chemical_comp is None:
-    #     check = True
-    # else:
-
-    context= {
-        'products': products,
-        "protein" : protein,
-        "hide_result" : check,
-        "not_exist" : not_exist,
-        "regions" : region,
-        "hide_ingredients" : hide_ingredients,
-    }
-
-    return render(request, 'client/pages/bakery.html', context)
 
 
 def list(request):
+    actual_url = request.path.split('/')[2]
     list_of_products = Products.objects.order_by('id')
     
     context= {
-        'list_of_products':list_of_products
+        'list_of_products':list_of_products,
+        'actual_url':actual_url,
     }
 
     return render(request, 'client/pages/list.html', context)

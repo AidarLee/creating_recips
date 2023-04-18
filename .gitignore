@@ -14,3 +14,4 @@ db.sqlite3
 app_blog/__pycache__/settings.cpython-310.pyc
 app_blog/settings.py
 app_blog/__pycache__/settings.cpython-310.pyc
+my_ennv/

@@ -44,6 +44,7 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['last_name', 'first_name', 'username', 'email']
+        
     last_name = forms.CharField(max_length=100,
                                required=True,
                                widget=forms.TextInput(attrs={'class': 'form-control', "id" : "last_name", "placeholder" : "Введите Имя"}))
@@ -61,19 +62,19 @@ class UpdateUserForm(forms.ModelForm):
         fields = ['username', 'email']
 
 
-class IngredientsForm(ModelForm):
+class IngredientsForm(forms.ModelForm):
     class Meta:
         model = Ingredients
         fields = ['name', 'category']
-    
+        
     name = forms.CharField(max_length=80, required=True, widget=TextInput(
             attrs={"type" : "text", "class" : "form-control", "id" : "title", "placeholder" : "Введите наименование ингредиента", "size" : 80},
             ))
     category = forms.ModelChoiceField(queryset=Categories.objects.all(), 
-                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
+                                     widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "category"},
             ))
     
-class IngredientsCategoriesForm(ModelForm):
+class IngredientsCategoriesForm(forms.ModelForm):
     class Meta:
         model = Categories
         fields = ['Name_of_category', 'Region']
@@ -87,10 +88,9 @@ class IngredientsCategoriesForm(ModelForm):
                                         attrs={"class" : "form-control", "id" : "Region"}
                                     ),
                                 required=True
-                            )
+                            ),
 
-
-class FatAcidsIngredientsForm(ModelForm):
+class FatAcidsIngredientsForm(forms.ModelForm):
     class Meta:
         model = FatAcidsIngredients
         fields = ['ingredient', 'type_of_acid', 'value']
@@ -108,7 +108,7 @@ class FatAcidsIngredientsForm(ModelForm):
     
     value = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     
-class MineralsIngredientsForm(ModelForm):
+class MineralsIngredientsForm(forms.ModelForm):
     class Meta:
         model = MineralsIngredients
         fields = ['ingredient', 'Ca', 'Na', 'K', 'P', 'Mn',
@@ -140,7 +140,7 @@ class MineralsIngredientsForm(ModelForm):
     Sn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     
 
-class AminoAcidsIngredientsForm(ModelForm):
+class AminoAcidsIngredientsForm(forms.ModelForm):
     class Meta:
         model = AminoAcidCompOfIng
         fields = ['ingredient', 'asparing', 'glutamin', 'serin', 'gistidin', 'glitsin', 'treonin', 'arginin', 'alanin',
@@ -169,7 +169,7 @@ class AminoAcidsIngredientsForm(ModelForm):
     lisin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     prolin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
 
-class ChemicalsIngredientsForm(ModelForm):
+class ChemicalsIngredientsForm(forms.ModelForm):
     class Meta:
         model = ChemicalsIngredients
         fields = ['ingredient', 'soluable_solids', 'ascorbic_acids', 'ash_content', 'moisture', 'protein', 'fat']
@@ -187,7 +187,7 @@ class ChemicalsIngredientsForm(ModelForm):
 
 
 
-class ProductsForm(ModelForm):
+class ProductsForm(forms.ModelForm):
     class Meta:
         model = Products
         fields = ['attribute_name', 'types', 'date_analis']
@@ -205,7 +205,7 @@ class ProductsForm(ModelForm):
                                )
     
 
-class TypesForm(ModelForm):
+class TypesForm(forms.ModelForm):
     class Meta:
         model = Types
         fields = ['Name_of_type', 'Category']
@@ -217,7 +217,7 @@ class TypesForm(ModelForm):
                                      widget=forms.Select(attrs={"class": "form-control", 'required': True, "id" : "types"},
             ))
     
-class CategoriesForm(ModelForm):
+class CategoriesForm(forms.ModelForm):
     class Meta:
         model = Categories
         fields = ['Name_of_category', 'Region']
@@ -234,7 +234,7 @@ class CategoriesForm(ModelForm):
                             )
 
 
-class FatAcidsForm(ModelForm):
+class FatAcidsForm(forms.ModelForm):
     class Meta:
         model = FatAcids
         fields = ['product', 'type_of_acid', 'value']
@@ -252,7 +252,7 @@ class FatAcidsForm(ModelForm):
     
     value = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     
-class MineralForm(ModelForm):
+class MineralForm(forms.ModelForm):
     class Meta:
         model = MineralComposition
         fields = ['product', 'Ca', 'Na', 'K', 'P', 'Mn',
@@ -284,7 +284,7 @@ class MineralForm(ModelForm):
     Sn = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     
 
-class AminoAcidsForm(ModelForm):
+class AminoAcidsForm(forms.ModelForm):
     class Meta:
         model = AminoAcidComposition
         fields = ['product', 'asparing', 'glutamin', 'serin', 'gistidin', 'glitsin', 'treonin', 'arginin', 'alanin',
@@ -313,7 +313,7 @@ class AminoAcidsForm(ModelForm):
     lisin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     prolin = forms.FloatField(widget=forms.widgets.NumberInput(attrs={'step': 0.01, 'max': 100.0, 'min': 0.0}))
     
-class ChemicalsForm(ModelForm):
+class ChemicalsForm(forms.ModelForm):
     class Meta:
         model = Chemicals
         fields = ['product', 'soluable_solids', 'ascorbic_acids', 'ash_content', 'moisture', 'protein', 'fat']

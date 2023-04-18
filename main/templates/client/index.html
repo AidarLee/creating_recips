@@ -1,7 +1,7 @@
 {% extends 'client/base.html' %}
 {% load static %}
-
-{% block page_title %}Проектирование рецептур{% endblock page_title%}
+{% load i18n %}
+{% block page_title %}{% translate "Проектирование рецептур" %}{% endblock page_title%}
 
 
 {% block content %}
@@ -9,6 +9,7 @@
 
 	<!-- home page slider -->
 	<div class="homepage-slider">
+
 		<!-- single home slider -->
 		<div class="single-homepage-slider homepage-bg-1">
 			<div class="container">
@@ -16,11 +17,29 @@
 					<div class="col-md-12 col-lg-7 offset-lg-1 offset-xl-0">
 						<div class="hero-text">
 							<div class="hero-text-tablecell">
-								<p class="subtitle">Проектирование продуктов</p>
-								<h1>Бишкекский ЦИСМ</h1>
+								<p class="subtitle">{% translate "О нас" %}</p>
+								<h1>{% translate "Бишкекский ЦИСМ" %}</h1>
 								<div class="hero-btns">
-									<a href="{% url 'meels' %}" class="boxed-btn">Рассчитать</a>
-									<a href="{% url 'contact' %}" class="bordered-btn">Связаться с нами	</a>
+									<a href="{% url 'about-us' %}" class="boxed-btn">{% translate "Подробнее" %}</a>
+									<a href="{% url 'contact' %}" class="bordered-btn">{% translate "Связаться с нами" %}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- single home slider -->
+		<div class="single-homepage-slider homepage-bg-3">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 offset-lg-1 text-center">
+						<div class="hero-text">
+							<div class="hero-text-tablecell">
+								<p class="subtitle">{% translate "Калькулятор" %}</p>
+								<h1>{% translate "Для расчета состава пищевого продукта" %}</h1>
+								<div class="hero-btns">
+									<a href="{% url 'meels' %}" class="boxed-btn">{% translate "Расчитать" %}</a>
 								</div>
 							</div>
 						</div>
@@ -35,30 +54,10 @@
 					<div class="col-lg-10 offset-lg-1 text-center">
 						<div class="hero-text">
 							<div class="hero-text-tablecell">
-								<p class="subtitle">Слайд №2</p>
-								<h1>100% Organic Collection</h1>
+								<p class="subtitle">{% translate "база данных" %}</p>
+								<h1>{% translate "Продуктов питания Кыргызской Республики" %}</h1>
 								<div class="hero-btns">
-									<a href="{% url 'meels' %}" class="boxed-btn">Рассчитать</a>
-									<a href="{% url 'contact' %}" class="bordered-btn">Связаться с нами	</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- single home slider -->
-		<div class="single-homepage-slider homepage-bg-3">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-10 offset-lg-1 text-right">
-						<div class="hero-text">
-							<div class="hero-text-tablecell">
-								<p class="subtitle">Слайд №3</p>
-								<h1>Get December Discount</h1>
-								<div class="hero-btns">
-									<a href="{% url 'meels' %}" class="boxed-btn">Рассчитать</a>
-									<a href="{% url 'contact' %}" class="bordered-btn">Связаться с нами	</a>
+									<a href="{% url 'list-of-products' %}" class="bordered-btn">{% translate "Подробнее" %}</a>
 								</div>
 							</div>
 						</div>
@@ -73,11 +72,11 @@
 
 	<!-- product section -->
 	<div class="product-section mt-150 mb-150">
-		<div class="container">
+		<!-- <div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">	
-						<h3><span class="orange-text">Проектирование</span> Продуктов</h3>
+						<h3><span class="orange-text">Расчет</span> Продуктов</h3>
 						<p>Описание</p>
 					</div>
 				</div>
@@ -90,7 +89,7 @@
 							<a href="{% url 'meels' %}"><img src="{% static 'client/img/products/meat.JPEG'%}" alt=""></a>
 						</div>
 						<h3>Мясные</h3>
-						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Спроектировать</a>
+						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Расчитать</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center">
@@ -99,7 +98,7 @@
 							<a href="{% url 'meels' %}"><img src="{% static 'client/img/products/milk.JPEG'%}" alt=""></a>
 						</div>
 						<h3>Молочные</h3>
-						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Спроектировать</a>
+						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Расчитать</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0 text-center">
@@ -108,11 +107,11 @@
 							<a href="{% url 'meels' %}"><img src="{% static 'client/img/products/bakery.JPEG'%}" alt=""></a>
 						</div>
 						<h3>Хлебобулочные</h3>
-						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Спроектировать</a>
+						<a href="{% url 'meels' %}" class="cart-btn"><i class="fas"></i>Расчитать</a>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<!-- end product section -->
 
@@ -182,11 +181,11 @@
 				</div>
 				<div class="col-lg-6 col-md-12">
 					<div class="abt-text">
-						<p class="top-sub">Since Year 1999</p>
-						<h2>Название <span class="orange-text">компании</span></h2>
-						<p>Информация о компании</p>
+						<p class="top-sub">{% translate "Текст" %}</p>
+						<h2>{% translate "Название" %} <span class="orange-text">{% translate "компании" %}</span></h2>
+						<p>{% translate "Информация о компании" %}</p>
 						
-						<a href="{% url 'about-us' %}" class="boxed-btn mt-4">Больше информаций</a>
+						<a href="{% url 'about-us' %}" class="boxed-btn mt-4">{% translate "Больше информаций" %}</a>
 					</div>
 				</div>
 			</div>

@@ -1,19 +1,20 @@
 {% extends 'client/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block page_title %}О нас{% endblock page_title%}
+{% block page_title %}{% translate "О нас" %}{% endblock page_title%}
 
 {% block content %}
 <body>
 	
 	<!-- breadcrumb-section -->
-	<div class="breadcrumb-section breadcrumb-bg">
+	<div class="breadcrumb-section breadcrumb-bg homepage-bg-1">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
-						<p>Проектирование рецептуры пищевого продукта</p>
-						<h1>О нас</h1>
+						<p>{% translate "Проектирование рецептуры пищевого продукта" %}</p>
+						<h1>{% translate "О нас" %}</h1>
 					</div>
 				</div>
 			</div>
@@ -28,7 +29,7 @@
 			<div class="row">
 				<div class="col-lg-7">
 					<div class="featured-text">
-						<h2 class="pb-3">Бишкекский <span class="orange-text">ЦИСМ</span></h2>
+						<h2 class="pb-3">{% translate "Бишкекский" %} <span class="orange-text">{% translate "ЦИСМ" %}</span></h2>
 						<div class="row">
 							<!-- <div class="col-lg-6 col-md-6 mb-4 mb-md-5">
 								<div class="list-box d-flex">

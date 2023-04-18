@@ -2,14 +2,36 @@
 {% load static %}
 {% load i18n %}
 
-{% block page_title %}Проектирование рецептуры мясных продуктов{% endblock page_title%}
+{% block page_title %}Калькулятор рецептуры мясных продуктов{% endblock page_title%}
 
 {% block content %}
 
 
 <style>
-	#meal-form {
+	#ingredients-wrapper {
 		position: relative;
+	}
+
+	.btn-calculate {
+		background-color: #F28123;
+		color: #fff;
+		font-weight: bold;
+	}
+
+	.btn-calculate:hover {
+		background-color: #ff7f16;
+		color: #fff;
+	}
+
+	.btn-add {
+		background-color: #374b56;
+		color: #fff;
+		font-weight: bold;
+	}
+
+	.btn-add:hover {
+		background-color: #06374f;
+		color: #fff;
 	}
 
 	.btn-wrapper {
@@ -33,14 +55,48 @@
 		transition: .5s;
 
 	}
+
+	.bg-custom {
+		background-color: rgba(0, 0, 0, .05);
+	}
+
+	.card-title h3 {
+		text-align: center;
+		font-size: 18px;
+		font-family: Open Sans, sans-serif;
+	}
+
+	select.form-control {
+		margin-bottom: 15px;
+	}
+
+	.ing-num-wrapper {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	.ing-num {
+		font-weight: bolder;
+		color: rgba(0, 0, 0, .2);
+	}
+
+	@media print {
+		.no-print{
+			display: none;
+		}
+		.chart-print{
+			width: 100%;
+		}
+	}
 </style>
 <!-- breadcrumb-section -->
-<div class="breadcrumb-section breadcrumb-bg">
+<div class="breadcrumb-section breadcrumb-bg homepage-bg-3">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 offset-lg-2 text-center">
 				<div class="breadcrumb-text">
-					<p>Проектирование рецептуры пищевых продуктов</p>
+					<p>{% translate "Калькулятор рецептуры пищевых продуктов" %}</p>
 				</div>
 			</div>
 		</div>
@@ -52,462 +108,153 @@
 <!-- cart -->
 <div class="cart-section mt-100 mb-150">
 	<div class="container">
+		<div class="card-title  mt-5">
+			{% if error_message %}
+			<div class="alert alert-danger alert-dismissible" role="alert">{{error_message}}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			{% endif %}
+		</div>
 
 		<div class="container">
-			<form method="post" action="{% url 'meels' %}" id="meal-form">
+			<form id="meal-form">
 				{% csrf_token %}
-					<div class="row justify-content-center">
-						<div class="col-lg-3">
-							<div class="form-outline">
-								<label class="form-label" for="region">Введите название продукта</label>
-								<input type="text" id="product-name" name="product-name" class="form-control" />
-							</div>
-						</div>
-
-						<div class="col-lg-3">
-							<div class="form-outline">
-								<label class="form-label" for="region_prod">Введите тип продукта</label>
-								<select name="region_prod" id="region" class="form-control" required>
-									<option value="0">Тип</option>
-									{% for value in types %}
-									<option value="{{value.id}}">{{value.Name_of_type}} - {{value.Category.Region}}</option>
-									{% endfor %}
-								</select>
-							</div>
-						</div>
-
-						<div class="col-lg-3">
-							<div class="form-outline">
-								<label class="form-label" for="region">Введите Категорию продукта</label>
-								<select name="region_0" id="region" class="form-control" required>
-									<option value="0">Категория</option>
-									{% for value in categories %}
-									<option value="{{value.id}}">{{value.Name_of_category}}</option>
-									{% endfor %}
-								</select>
-							</div>
-						</div>
-
+				<div class="row">
+					<div class="form-outline">
+						<input type="text" id="product" name="product" class="form-control" required/>
+						<label class="form-label font-weight-bold" for="product">{% translate "Введите название продукта" %}</label>
 					</div>
-		  </div>
+				</div>
+		</div>
 
 
-			<hr>
-			<div class="wrapper" id="ingredients-wrapper">
-				<div class="row mb-4 pt-3">
-					<div class="col-lg-3 col-sm-12">
-						<div class="form-outline">
-							<select name="region_0" id="region" class="form-control" required>
-								<option value="0">Выберите регион</option>
-								{% for key, value in regions %}
-								<option value="{{key}}">{{value}}</option>
-								{% endfor %}
-							</select>
-							<label class="form-label" for="region">Регион</label>
-						</div>
+		<hr>
+		<div class="wrapper" id="ingredients-wrapper">
+			<div class="row mb-5 pt-3">
+				<div class="ing-num-wrapper">
+					<span class="ing-num">1</span>
+				</div>
+				<div class="col-lg-3 col-sm-12">
+					<div class="form-outline">
+						<select name="region" id="region_0" class="form-control" onchange="changeWeek(this);" required>
+							<option value="0">Выберите регион</option>
+							{% for key, value in regions %}
+							<option value="{{key}}">{{value}}</option>
+							{% endfor %}
+						</select>
+						<label class="form-label font-weight-bold" for="region">{% translate "Регион" %}</label>
 					</div>
-					<div class="col-lg-3 col-sm-12">
-						<div class="form-outline">
-							<select name="ing_0" id="meal" class="form-control">
-								<option value="0">Выберите вид мяса</option>
-								{% for value in ingredient %}
-									<option value="{{value.id}}">{{value.name}} - {{value.category.Region}}</option>
-								{% endfor %}
-							</select>
-							<label class="form-label" for="meal">Ингредиент</label>
-						</div>
+				</div>
+				<div class="col-lg-3 col-sm-12">
+					<div class="form-outline">
+						<select name="ingredients" id="ing_0" class="form-control" required>
+							<option value="0">Выберите вид ингредиента</option>
+							{% for value in ingredient %}
+							<option value="{{value.id}}">{{value.name}} - {{value.category.Region}}</option>
+							{% endfor %}
+						</select>
+						<label class="form-label font-weight-bold" for="meal">{% translate "Ингредиент" %}</label>
 					</div>
-					<div class="col-lg-3">
-						<div class="form-outline">
-							<input type="number" id="massfraction" name="massfraction_0" min="0" class="form-control" />
-							<label class="form-label" for="massfraction">Массовая доля в рецепте, %</label>
-						</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="form-outline">
+						<input type="number" id="massfraction_0" name="massfraction" min="0" class="form-control" required/>
+						<label class="form-label font-weight-bold" for="massfraction">{% translate "Массовая доля в рецепте, %" %}</label>
 					</div>
-					<div class="col-lg-3">
-						<div class="form-outline">
-							<input type="number" id="price" name="price_0" min="0" class="form-control" />
-							<label class="form-label" for="price">Цена за 1кг</label>
-						</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="form-outline">
+						<input type="number" id="price_0" name="price" min="0" class="form-control" required/>
+						<label class="form-label font-weight-bold" for="price">{% translate "Цена за 1кг" %}</label>
 					</div>
 				</div>
 			</div>
-			
-			<input type="hidden" name="counter" id="counter" value="0">
-			<!-- Submit button -->
-			<button type="submit" class="btn btn-primary btn-block mb-4">Рассчитать</button>
-			<button type="button" class="btn btn-success btn-block mb-4" id="btn-add">Добавить Ингредиент +</button>
+		</div>
+
+		<input type="hidden" name="counter" id="counter" value="0">
+		<!-- Submit button -->
+		<button type="button" class="btn btn-calculate btn-block mb-4" onclick="ClickSolution();">{% translate "Рассчитать" %}</button>
+		<button type="button" class="btn btn-add btn-block mb-4" id="btn-add">{% translate "Добавить Ингредиент +" %}</button>
 		</form>
 	</div>
 
 	<script src="{% static 'client/js/jquery-1.11.3.min.js'%}"></script>
 	<script>
 		var i = 0;
-		$('#btn-add').on('click', function(){
+		$('#btn-add').on('click', function () {
 			var html = '<div class="row mb-4 pt-3" id="row_' + ++i + '">' +
 				'<div class="btn-wrapper">' +
-					'<div class="control-btns">' +
-						'<div class="delete-btn" title="Удалить элемент" id="delete-btn">' +
-							'<i class="fas fa-times"></i>' +
-						'</div>' +
-					'</div>' +
+				'<div class="control-btns">' +
+				'<div class="delete-btn" title="Удалить элемент" id="delete-btn">' +
+				'<i class="fas fa-times"></i>' +
+				'</div>' +
+				'</div>' +
 				'</div>' +
 				'<div class="col-lg-3 col-sm-12">' +
-					'<div class="form-outline">' +
-						'<select name="region_' + i + '"id="region" class="form-control" required>' +
-							'<option value="0">Выберите регион</option>' +
-							'{% for key, value in regions %}' +
-							 '<option value="{{key}}">{{value}}</option>' +
-							'{% endfor %}' +
-						'</select>' +
-						'<label class="form-label" for="region">Регион</label>' +
-					'</div>' +
+				'<div class="form-outline">' +
+				'<select name="region" id="region_' + i + '" class="form-control" onchange="changeWeek(this);" required>' +
+				'<option value="0">Выберите регион</option>' +
+				'{% for key, value in regions %}' +
+				'<option value="{{key}}">{{value}}</option>' +
+				'{% endfor %}' +
+				'</select>' +
+				'<label class="form-label font-weight-bold" for="region">Регион</label>' +
+				'</div>' +
 				'</div>' +
 				'<div class="col-lg-3 col-sm-12">' +
-					'<div class="form-outline">' +
-						'<select name="ing_' + i + '" id="meal" class="form-control">' + 
-							'<option value="0">Выберите вид мяса</option>' + 
-							'{% for value in ingredient %}' + 
-								'<option value="{{value.id}}">{{value.name}} - {{value.category.Region}}</option>' + 
-							'{% endfor %}' + 
-						'</select>' + 
-						'<label class="form-label" for="meal">Вид мяса</label>' + 
-					'</div>' + 
-				'</div>' + 
-				'<div class="col-lg-3">' + 
-					'<div class="form-outline">' + 
-						'<input type="number" id="massfraction" name="massfraction_' + i + '" min="0" class="form-control" />' + 
-						'<label class="form-label" for="massfraction">Массовая доля в рецепте, %</label>' + 
-					'</div>' + 
-				'</div>' + 
-				'<div class="col-lg-3">' + 
-					'<div class="form-outline">' + 
-						'<input type="number" id="price" name="price_' + i + '" min="0" class="form-control" />' + 
-						'<label class="form-label" for="price">Цена за 1кг</label>' + 
-					'</div>' + 
-				'</div>' + 
-			'</div>';
-			if(i < 10){
+				'<div class="form-outline">' +
+				'<select name="ingredients" id="ing_' + i + '" class="form-control">' +
+				'<option value="0">Выберите вид ингредиента</option>' +
+				'{% for value in ingredient %}' +
+				'<option value="{{value.id}}">{{value.name}} - {{value.category.Region}}</option>' +
+				'{% endfor %}' +
+				'</select>' +
+				'<label class="form-label font-weight-bold" for="meal">Ингредиент</label>' +
+				'</div>' +
+				'</div>' +
+				'<div class="col-lg-3">' +
+				'<div class="form-outline">' +
+				'<input type="number" id="massfraction_' + i + '" name="massfraction" min="0" class="form-control" />' +
+				'<label class="form-label font-weight-bold" for="massfraction">Массовая доля в рецепте, %</label>' +
+				'</div>' +
+				'</div>' +
+				'<div class="col-lg-3">' +
+				'<div class="form-outline">' +
+				'<input type="number" id="price_' + i + '" name="price" min="0" class="form-control" />' +
+				'<label class="form-label font-weight-bold" for="price">Цена за 1кг</label>' +
+				'</div>' +
+				'</div>' +
+				'</div>';
+			if (i < 10) {
 				$("#ingredients-wrapper").prepend(html);
+				$('.ing-num').text(i+1);
 				$("#counter").val(i);
-
-				console.log($("#counter").val(i));
-			} else{
+			} else {
 				alert("Вы можете добавить максимально 10 ингредиентов");
 				i = 9;
 			}
 		});
 
-		$('body').on("click", "#delete-btn", function(){
+		$('body').on("click", "#delete-btn", function () {
 			$(this).parents('.row').remove();
 			i = i - 1;
-			console.log($("#counter").val(i));
-			console.log(i);
+			$('.ing-num').text(i+1);
+			$("#counter").val(i);
+			$(".region").val(i);
 		});
 	</script>
+	
+<!-- end cart -->
+<div class="container" id="outputcalculate">
 
+</div>
 
-		<div class="container">
-			<div class="card-title bg-custom border p-1 mt-5">
-				<h4>Отчет</h4>
-			</div>
-		</div>
+{% endblock content %}
 
-		<div class="container">
+{% block custom_js %}
+<script src="{% static 'client/js/main.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-			<div class="wrapper">
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="card-title bg-custom border p-1">
-							<h3>Содержание основных компонентов</h3>
-						</div>
-						<div class="table-responsive">
-							<table class="table">
-								<tr>
-									<th>Содержание белка %</th>
-									<th>Содержание жира %</th>
-									<th>Содержание углеводов %</th>
-								</tr>
-								<tr>
-									<td>{{ MyClass.protein }}</td>
-									<td>{{ MyClass.fat }}</td>
-									<td>0,1</td>
-									
-								</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="card-title bg-custom border p-1">
-							<h3>Себестоимость</h3>
-						</div>
-						<div class="table-responsive">
-							<table class="table">
-								<tr>
-									<th>Себестоимость за 100 г.</th>
-									<th>Себестоимость за 1кг.</th>
-								</tr>
-								<tr>
-									<td>{{ price_100 }}</td>
-									<td>{{ price_1kg }}</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="card-title border p-1 text-center">
-							<h3>Содержание НАК и их скор</h3>
-						</div>
-						<div class="table-responsive">
-							<table class="table">
-								<tr>
-									<th></th>
-									<th>Изолейц</th>
-									<th>Лейц</th>
-									<th>Валин</th>
-									<th>Мет+Цист</th>
-									<th>Фен+Тир</th>
-									<th>Триптофан</th>
-									<th>Треон</th>
-									<th>Лизин</th>
-								</tr>
-								<tr>
-									<th>М, %</th>
-									<td>661,18</td>
-									<td>1156,58</td>
-									<td>757,51</td>
-									<td>509,44</td>
-									<td>1143,24</td>
-									<td>220,55</td>
-									<td>647,51</td>
-									<td>1541,82</td>
-								</tr>
-
-								<tr>
-									<th>C, %</th>
-									<td>16529,45</td>
-									<td>16522,59</td>
-									<td>15150,17</td>
-									<td>14555,44</td>
-									<td>19053,92</td>
-									<td>22054,57</td>
-									<td>16187,82</td>
-									<td>28033,04</td>
-								</tr>
-								<tr>
-									<th>a, %</th>
-									<td>0,88</td>
-									<td>0,88</td>
-									<td>0,96</td>
-									<td>1,00</td>
-									<td>0,76</td>
-									<td>0,66</td>
-									<td>0,90</td>
-									<td>0,52</td>
-								</tr>
-								<tr>
-									<th>Cmin</th>
-									<td>14555,44</td>
-								</tr>
-							</table>
-						</div>
-
-					</div> 
-				</div>
-
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="card-title bg-custom border p-1">
-							<h3>Энергетическая ценность</h3>
-						</div>
-						<div class="table-responsive">
-							<table class="table">
-								<tbody>
-									<tr>
-										<th rowspan="3">ЭЦ, ккал, кДж</th>
-									</tr>
-									<tr>
-										<td>152,7</td>
-										<td>642</td>
-									</tr>
-									<tr>
-										<th>ккал</th>
-										<th>кДж</th>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<div class="card-title bg-custom border p-1 text-center">
-							<h3>Качественные показатeли белкового компонента</h3>
-						</div>
-						<div class="table-responsive">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>КРАС</th>
-										<th>БЦ</th>
-										<th>U</th>
-										<th>G</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>154,8</td>
-										<td>646</td>
-										<td>154,8</td>
-										<td>646</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-			<div class="row">
-
-				
-				<div class="col-lg-6">
-					<div class="card shadow mb-4">
-						
-						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">График Качественные показатeли белкового компонента</h6>
-						</div>
-						
-						<div class="card-body">
-							  <div>
-								<canvas id="myChartBar"></canvas>
-							  </div>
-							<hr>
-						</div>
-					</div>
-				</div>
-
-
-				<!-- Donut Chart -->
-				<div class="col-lg-6">
-					<div class="card shadow mb-4">
-						<!-- Card Header - Dropdown -->
-						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">График сожержания БЖУ</h6>
-						</div>
-						<!-- Card Body -->
-						<div class="card-body">
-							<div class="chart-pie pt-4">
-								<canvas id="myChartPie"></canvas>
-							</div>
-							<hr>
-						</div>
-					</div>
-				</div>
-
-			</div>
-			</div>
-		</div>
-
-	</div>
-	<!-- end cart -->
-
-	{% endblock content %}
-
-	{% block custom_js %}
-	<script src="{% static 'client/js/main.js' %}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-	<script>
-		$(document).ready(function(){
-			//Code for Pie Chart
-			var pieData  = {
-			 labels: [
-				 'Жиры', 
-				 'Белки',
-				 'Углеводы' 
-			 ],
-			 datasets: [
-				 {
-				 data: [{{MyClass.fat}}, {{MyClass.protein}}, 0.1],
-				 backgroundColor : ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-				 }
-			 ]
-			 }
-			//Code for Pie Chart
-			 var pieChart = $('#myChartPie').get(0).getContext('2d')
-			 var pieData        = pieData;
-			 var pieOptions     = {
-			 maintainAspectRatio : false,
-			 responsive : true,
-			 }
-			 //Create pie or douhnut chart
-			 // You can switch between pie and douhnut using the method below.
-			 var pieChart = new Chart(pieChart, {
-			 type: 'doughnut',
-			 data: pieData,
-			 options: pieOptions      
-			 })
-
-			 //Code for Bar Chart
-			var BarData  = {
-			 labels: [
-				 'КРАС', 
-				 'БЦ',
-				 'U',
-				 'G', 
-			 ],
-			 datasets: [
-				 {
-				 data: [5,6,3,8],
-				 backgroundColor : ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)','rgb(201, 203, 207)',],
-				 }
-			 ]
-			 }
-			//Code for Pie Chart
-			 var BarChart = $('#myChartBar').get(0).getContext('2d')
-			 var BarData        = BarData;
-			 var BarOptions     = {
-			 maintainAspectRatio : false,
-			 responsive : true,
-			 }
-			 //Create pie or douhnut chart
-			 // You can switch between pie and douhnut using the method below.
-			 var BarChart = new Chart(BarChart, {
-			 type: 'bar',
-			 data: BarData,
-			 options: BarOptions      
-			 })
- 
-			 
-		})
-	 </script>
-
-	<!-- <script>
-		const config = {
-			type: 'doughnut',
-			data: data,
-		};
-
-		const data = {
-		labels: [
-			'Red',
-			'Blue',
-			'Yellow'
-		],
-		datasets: [{
-			label: 'My First Dataset',
-			data: [300, 50, 100],
-			backgroundColor: [
-			'rgb(255, 99, 132)',
-			'rgb(54, 162, 235)',
-			'rgb(255, 205, 86)'
-			],
-			hoverOffset: 4
-		}]
-		};
-
-
-	</script>	 -->
-
-	{% endblock custom_js %}
+{% endblock custom_js %}
